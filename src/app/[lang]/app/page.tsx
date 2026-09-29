@@ -26,7 +26,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("portfolio.dashboard")}</h1>
+      <h1 className="display-lg">{t("portfolio.dashboard")}</h1>
       <Card title={t("portfolio.all")}>
         {summary.isPending ? <Loading label={t("common.loading")} /> : summary.error ? <ErrorState error={summary.error} /> : <PortfolioSummaryView summary={summary.data} />}
       </Card>

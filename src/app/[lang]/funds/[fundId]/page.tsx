@@ -29,7 +29,7 @@ export default async function FundDetailPage({ params }: PageProps<"/[lang]/fund
     <article className="flex flex-col gap-6">
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-2xl font-bold">{f.code}</h1>
+          <h1 className="display-lg">{f.code}</h1>
           <span className="text-sm text-text-muted">{t(`fundType.${f.type}`)}</span>
           {f.isSynthetic && <DataLabel kind="synthetic" />}
         </div>
@@ -38,14 +38,14 @@ export default async function FundDetailPage({ params }: PageProps<"/[lang]/fund
       </header>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-lg border border-border p-4">
-          <h2 className="flex items-center gap-2 font-semibold">
+        <div className="card p-5">
+          <h2 className="eyebrow flex items-center gap-2 text-text-secondary">
             {t("labels.officialNav")} <DataLabel kind="official" />
             {f.latestNav?.isStale && <DataLabel kind="stale" />}
           </h2>
           {f.latestNav ? (
             <>
-              <p className="num mt-2 text-3xl font-bold">{formatNav(f.latestNav.calculationNav, locale)}</p>
+              <p className="num mt-3 display-lg">{formatNav(f.latestNav.calculationNav, locale)}</p>
               <p className="num text-xs text-text-muted">
                 {t("labels.rawNav")}: {formatDecimal(f.latestNav.rawNav, locale)} · {t("labels.calcNav")}
               </p>
@@ -56,14 +56,14 @@ export default async function FundDetailPage({ params }: PageProps<"/[lang]/fund
           )}
         </div>
         {f.type !== "OpenFund" && (
-          <div className="rounded-lg border border-border p-4">
-            <h2 className="flex items-center gap-2 font-semibold">
+          <div className="card p-5">
+            <h2 className="eyebrow flex items-center gap-2 text-text-secondary">
               {t("labels.marketPrice")} <DataLabel kind="market" />
               {f.latestMarketPrice?.isStale && <DataLabel kind="stale" />}
             </h2>
             {f.latestMarketPrice ? (
               <>
-                <p className="num mt-2 text-3xl font-bold">{formatDecimal(f.latestMarketPrice.close, locale)}</p>
+                <p className="num mt-3 display-lg">{formatDecimal(f.latestMarketPrice.close, locale)}</p>
                 <p className="text-xs text-text-muted">
                   {t("labels.tradeDate")}: {formatDate(f.latestMarketPrice.tradeDate, locale)}
                 </p>
@@ -77,32 +77,32 @@ export default async function FundDetailPage({ params }: PageProps<"/[lang]/fund
       </section>
 
       <section className="flex flex-wrap gap-3">
-        <Link href={`${base}/analytics`} className="rounded-md border border-border px-4 py-2 text-sm">
+        <Link href={`${base}/analytics`} className="btn btn-secondary">
           {t("funds.analytics")}
         </Link>
         {f.type === "OpenFund" && (
-          <Link href={`${base}/forecast`} className="rounded-md border border-border px-4 py-2 text-sm">
+          <Link href={`${base}/forecast`} className="btn btn-secondary">
             {t("funds.forecast")}
           </Link>
         )}
-        <Link href={`/${locale}/calculator?fundId=${f.id}`} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-contrast">
+        <Link href={`/${locale}/calculator?fundId=${f.id}`} className="btn btn-primary">
           {t("funds.calculate")}
         </Link>
         <CompareButton fundId={f.id!} />
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <dl className="grid grid-cols-1 gap-2 rounded-lg border border-border p-4 text-sm">
+        <dl className="grid grid-cols-1 gap-2 card p-5 text-sm">
           <Row label={t("funds.manager")} value={f.managementCompany} />
           <Row label={t("funds.supervisoryBank")} value={f.supervisoryBank} />
           {f.type !== "OpenFund" && <Row label={t("funds.exchange")} value={[f.exchangeCode, f.exchangeTicker].filter(Boolean).join(" / ")} />}
           <Row label={t("funds.distributionPolicy")} value={t(`distributionPolicy.${f.distributionPolicy}`)} />
           <Row label={t("funds.mechanisms")} value={cls?.supportedMechanisms?.map((m) => t(`mechanism.${m}`)).join(", ")} />
         </dl>
-        <div className="rounded-lg border border-border p-4 text-sm">
-          <h2 className="font-semibold">{t("funds.strategy")}</h2>
+        <div className="card p-5 text-sm">
+          <h2 className="heading-md">{t("funds.strategy")}</h2>
           <p className="mt-1 whitespace-pre-line text-text-muted">{(locale === "en" ? f.strategyEn : f.strategyVi) ?? "—"}</p>
-          <h2 className="mt-4 font-semibold">{t("funds.documents")}</h2>
+          <h2 className="heading-md mt-4">{t("funds.documents")}</h2>
           {f.documents?.length ? (
             <ul className="mt-1 list-disc pl-5">
               {f.documents.map((d) => (

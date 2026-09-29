@@ -25,11 +25,11 @@ export default function ComparePage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("compare.title")}</h1>
+      <h1 className="display-lg">{t("compare.title")}</h1>
       <Card title={t("compare.selected")}>
         <ul className="flex flex-wrap gap-2">
           {ids.map((id) => (
-            <li key={id} className="flex items-center gap-1 rounded-full border border-border px-3 py-1 text-sm">
+            <li key={id} className="flex items-center gap-1 rounded-full border border-border bg-surface-muted px-3 py-1 text-sm">
               {byId.get(id)?.code ?? id.slice(0, 8)}
               <button type="button" aria-label={`${t("compare.remove")} ${byId.get(id)?.code ?? ""}`} onClick={() => removeFromCompare(id)} className="text-danger">
                 ×

@@ -28,7 +28,7 @@ export default function AdminReconciliationPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.reconciliation")}</h1>
+      <h1 className="display-lg">{t("admin.reconciliation")}</h1>
       {queue.error && <ErrorState error={queue.error} />}
       {(queue.data ?? []).length === 0 && <Alert tone="success">{t("common.empty")}</Alert>}
       <StepUpGate>

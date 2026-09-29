@@ -24,7 +24,7 @@ function ImportInner() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("import.title")}</h1>
+      <h1 className="display-lg">{t("import.title")}</h1>
       <Card>
         <p className="text-sm text-text-muted">{t("import.template")}</p>
         <label className="mt-3 flex flex-col gap-1 text-sm">

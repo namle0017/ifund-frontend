@@ -23,7 +23,7 @@ function LoginInner() {
   const returnUrl = safeReturn(params.get("returnUrl"), `/${locale}/app`);
 
   return (
-    <Card title={t("auth.loginTitle")} className="mx-auto w-full max-w-md">
+    <Card title={t("auth.loginTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
       <form
         className="flex flex-col gap-3"
         onSubmit={async (e) => {
@@ -50,7 +50,7 @@ function LoginInner() {
           {t("auth.submitLogin")}
         </Button>
       </form>
-      <a href={`/api/v1/auth/google/start?returnUrl=${encodeURIComponent(returnUrl)}`} className="mt-3 flex min-h-10 items-center justify-center rounded-md border border-border text-sm">
+      <a href={`/api/v1/auth/google/start?returnUrl=${encodeURIComponent(returnUrl)}`} className="btn btn-secondary mt-3 w-full">
         {t("auth.google")}
       </a>
       <div className="mt-4 flex flex-col gap-1 text-sm">

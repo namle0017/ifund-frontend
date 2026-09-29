@@ -43,7 +43,7 @@ export default function ReportsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("reports.title")}</h1>
+      <h1 className="display-lg">{t("reports.title")}</h1>
       <Alert tone="info">{t("reports.notStatement")}</Alert>
       <Card>
         <form

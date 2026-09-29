@@ -21,7 +21,7 @@ export default async function AnalyticsPage({ params }: PageProps<"/[lang]/funds
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">
+      <h1 className="display-lg">
         {data.code} — {t("funds.analytics")}
       </h1>
       <AnalyticsView fundId={fundId} fundType={data.type!} />

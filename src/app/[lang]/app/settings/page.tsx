@@ -44,7 +44,7 @@ export default function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("settings.title")}</h1>
+      <h1 className="display-lg">{t("settings.title")}</h1>
       <Card title={t("settings.profile")}>
         <p>{me?.email}</p>
         <p className="text-sm text-text-muted">{me?.roles.join(", ")}</p>

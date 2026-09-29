@@ -30,7 +30,7 @@ export default function ModelsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.models")}</h1>
+      <h1 className="display-lg">{t("admin.models")}</h1>
       <Alert tone="info">Không cam kết mô hình ML luôn chính xác hơn baseline (F1). / ML is not guaranteed to beat the baseline.</Alert>
       {models.error && <ErrorState error={models.error} />}
       <StepUpGate>
@@ -48,7 +48,7 @@ export default function ModelsPage() {
             <p className="text-xs text-text-muted">
               {formatDateTime(m.createdAt, locale)} · cutoff {m.trainingDataCutoff ?? "—"}
             </p>
-            <pre className="my-2 overflow-x-auto rounded bg-surface-muted p-2 text-xs">{m.metricsJson}</pre>
+            <pre className="my-2 overflow-x-auto rounded-md bg-surface-muted p-3 text-xs">{m.metricsJson}</pre>
             {m.shadow && (
               <p className="text-sm">
                 {t("admin.shadow")}: n={m.shadow.pairedEvaluations} · MAE {formatDecimal(m.shadow.candidateMae, locale)} vs {formatDecimal(m.shadow.activeMae, locale)} ·{" "}

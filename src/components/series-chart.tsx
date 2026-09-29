@@ -35,15 +35,29 @@ export function SeriesChart({ series, title }: { series: ChartSeries[]; title: s
       }
 
       const styles = getComputedStyle(document.documentElement);
+      const css = (name: string) => styles.getPropertyValue(name).trim();
       const dates = Array.from(new Set(series.flatMap((s) => s.points.map((p) => p.date)))).sort();
       chart = echarts.init(ref.current);
       chart.setOption({
         aria: { enabled: true },
-        tooltip: { trigger: "axis" },
-        legend: { data: series.map((s) => s.name), textStyle: { color: styles.getPropertyValue("--text") } },
-        grid: { left: 60, right: 20, top: 40, bottom: 40 },
-        xAxis: { type: "category", data: dates, axisLabel: { formatter: (v: string) => formatDate(v, locale) } },
-        yAxis: { type: "value", scale: true },
+        textStyle: { fontFamily: getComputedStyle(document.body).fontFamily },
+        tooltip: {
+          trigger: "axis",
+          backgroundColor: css("--surface-raised"),
+          borderColor: css("--border"),
+          textStyle: { color: css("--text") },
+          extraCssText: `box-shadow: ${css("--shadow-2")}; border-radius: 8px;`,
+        },
+        legend: { top: 0, left: 0, data: series.map((s) => s.name), icon: "roundRect", itemHeight: 3, textStyle: { color: css("--text-muted") } },
+        grid: { left: 8, right: 16, top: 44, bottom: 8, containLabel: true },
+        xAxis: {
+          type: "category",
+          data: dates,
+          axisLine: { lineStyle: { color: css("--border") } },
+          axisTick: { show: false },
+          axisLabel: { color: css("--text-muted"), formatter: (v: string) => formatDate(v, locale) },
+        },
+        yAxis: { type: "value", scale: true, axisLabel: { color: css("--text-muted"), formatter: (v: number) => formatDecimal(String(v), locale) }, splitLine: { lineStyle: { color: css("--border") } } },
         series: series.map((s) => {
           const byDate = new Map(s.points.map((p) => [p.date, Number(p.value)]));
           return {
@@ -52,8 +66,8 @@ export function SeriesChart({ series, title }: { series: ChartSeries[]; title: s
             showSymbol: false,
             connectNulls: false,
             data: dates.map((d) => byDate.get(d) ?? null),
-            lineStyle: { type: s.kind === "forecast" ? "dashed" : "solid", color: styles.getPropertyValue(colorVar[s.kind]).trim() },
-            itemStyle: { color: styles.getPropertyValue(colorVar[s.kind]).trim() },
+            lineStyle: { width: s.kind === "official" ? 2.5 : 2, type: s.kind === "forecast" ? "dashed" : "solid", color: css(colorVar[s.kind]) },
+            itemStyle: { color: css(colorVar[s.kind]) },
           };
         }),
       });
@@ -68,9 +82,9 @@ export function SeriesChart({ series, title }: { series: ChartSeries[]; title: s
 
   return (
     <figure className="flex flex-col gap-2">
-      <figcaption className="text-sm font-semibold">{title}</figcaption>
+      <figcaption className="heading-md">{title}</figcaption>
       <div ref={ref} role="img" aria-label={title} className="h-72 w-full" />
-      <button type="button" className="self-start text-xs text-primary underline" aria-expanded={showTable} onClick={() => setShowTable((v) => !v)}>
+      <button type="button" className="self-start rounded-full px-2 py-1 text-xs text-primary underline underline-offset-2 hover:bg-info-bg" aria-expanded={showTable} onClick={() => setShowTable((v) => !v)}>
         {t("common.tableAlternative")}
       </button>
       {showTable && (

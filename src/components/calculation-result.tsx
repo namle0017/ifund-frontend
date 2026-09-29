@@ -26,18 +26,18 @@ export function CalculationResultView({ result, title }: { result: S<"Calculatio
   }
 
   const row = (label: string, value: React.ReactNode, strong = false) => (
-    <div className="grid grid-cols-[1fr_auto] gap-4 border-b border-border/60 py-1">
+    <div className="grid grid-cols-[1fr_auto] gap-4 border-b border-border py-2">
       <dt className="text-sm text-text-muted">{label}</dt>
-      <dd className={`num text-right ${strong ? "text-lg font-bold" : ""}`}>{value}</dd>
+      <dd className={`num text-right ${strong ? "text-xl font-normal" : ""}`}>{value}</dd>
     </div>
   );
 
   return (
     <section aria-live="polite" className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-lg font-semibold">{title ?? t("calc.result")}</h2>
+        <h2 className="heading-lg">{title ?? t("calc.result")}</h2>
         <DataLabel kind="simulation" />
-        {!complete && <span className="rounded bg-danger-bg px-2 py-0.5 text-xs font-semibold text-danger">{t("labels.incomplete")}</span>}
+        {!complete && <span className="rounded-full bg-danger-bg px-2.5 py-0.5 text-xs font-medium text-danger">{t("labels.incomplete")}</span>}
         {result.pricingBasis === "ForecastNav" && <DataLabel kind="forecast" />}
         {isExchange && <DataLabel kind="market" />}
         {result.pricingBasis === "VerifiedNav" && <DataLabel kind="official" />}
@@ -122,9 +122,9 @@ export function TimelineView({ timeline }: { timeline: S<"Timeline"> }) {
   ];
   return (
     <div>
-      <h3 className="font-semibold">{t("calc.timeline")}</h3>
+      <h3 className="heading-md">{t("calc.timeline")}</h3>
       {timeline.status !== "Complete" && <WarningList missing={timeline.missing} />}
-      <ol className="mt-2 flex flex-col gap-2 border-l-2 border-border pl-4 md:flex-row md:gap-6 md:border-l-0 md:pl-0">
+      <ol className="mt-3 flex flex-col gap-3 border-l-2 border-primary-subdued pl-4 md:flex-row md:flex-wrap md:gap-6 md:border-l-0 md:border-t-2 md:pl-0 md:pt-3">
         {items.map(([k, v, isDateTime]) => (
           <li key={k} className="text-sm">
             <span className="block text-xs text-text-muted">{t(k)}</span>

@@ -10,11 +10,11 @@ export function CompareButton({ fundId }: { fundId: string }) {
   const [full, setFull] = useState(false);
   const selected = ids.includes(fundId);
   return (
-    <span className="inline-flex flex-col">
+    <span className="inline-flex flex-col items-start">
       <button
         type="button"
         aria-pressed={selected}
-        className="rounded border border-border px-2 py-1 text-xs hover:bg-surface-muted"
+        className={`rounded-full border px-3 py-1.5 text-xs ${selected ? "border-primary bg-info-bg text-primary" : "border-border-input text-text-secondary hover:border-primary hover:text-primary"}`}
         onClick={() => {
           if (selected) {
             removeFromCompare(fundId);

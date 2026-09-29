@@ -34,7 +34,7 @@ export default function PortfolioPage({ params }: PageProps<"/[lang]/app/portfol
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-2">
         {name === null ? (
-          <h1 className="text-2xl font-bold">{portfolio?.name ?? "…"}</h1>
+          <h1 className="display-lg">{portfolio?.name ?? "…"}</h1>
         ) : (
           <TextInput aria-label={t("portfolio.name")} value={name} onChange={(e) => setName(e.target.value)} />
         )}
@@ -48,10 +48,10 @@ export default function PortfolioPage({ params }: PageProps<"/[lang]/app/portfol
           </Button>
         ))}
         <div className="ml-auto flex gap-2">
-          <Link href={`/${locale}/app/transactions/new?portfolioId=${id}`} className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-contrast">
+          <Link href={`/${locale}/app/transactions/new?portfolioId=${id}`} className="btn btn-primary">
             {t("portfolio.newTransaction")}
           </Link>
-          <Link href={`/${locale}/app/transactions/import?portfolioId=${id}`} className="rounded-md border border-border px-3 py-2 text-sm">
+          <Link href={`/${locale}/app/transactions/import?portfolioId=${id}`} className="btn btn-secondary">
             {t("portfolio.import")}
           </Link>
         </div>

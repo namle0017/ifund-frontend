@@ -34,12 +34,12 @@ export default function AdminOverviewPage() {
   ];
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.overview")}</h1>
+      <h1 className="display-lg">{t("admin.overview")}</h1>
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {kpis.map(([k, v]) => (
-          <div key={k} className="rounded-lg border border-border p-3">
+          <div key={k} className="card p-4">
             <dt className="text-xs text-text-muted">{k}</dt>
-            <dd className="num text-xl font-semibold">{String(v ?? 0)}</dd>
+            <dd className="num mt-1 text-2xl font-light tracking-tight">{String(v ?? 0)}</dd>
           </div>
         ))}
       </dl>

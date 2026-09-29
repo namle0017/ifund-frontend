@@ -31,7 +31,7 @@ export default function DistributionsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("distributions.title")}</h1>
+      <h1 className="display-lg">{t("distributions.title")}</h1>
       <Card>
         <Field label={t("nav.portfolios")}>
           {(id) => (

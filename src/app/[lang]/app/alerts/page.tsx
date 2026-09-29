@@ -43,7 +43,7 @@ export default function AlertsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("alerts.title")}</h1>
+      <h1 className="display-lg">{t("alerts.title")}</h1>
       <Card>
         <form
           className="grid gap-3 md:grid-cols-3"

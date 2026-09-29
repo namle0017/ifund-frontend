@@ -52,7 +52,7 @@ test.describe("Guest (TC-01, FL-01/02)", () => {
     await expect(page).toHaveURL(/\/vi\/auth\/login\?returnUrl=%2Fvi%2Fapp/);
   });
 
-  for (const path of ["/vi/funds", "/vi/calculator", "/vi/compare", "/vi/auth/login", "/vi/methodology"]) {
+  for (const path of ["/vi", "/vi/funds", "/vi/calculator", "/vi/compare", "/vi/auth/login", "/vi/methodology"]) {
     test(`accessibility: no serious/critical axe violations on ${path}`, async ({ page }) => {
       await page.goto(path);
       await page.waitForLoadState("networkidle");

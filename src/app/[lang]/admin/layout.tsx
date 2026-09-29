@@ -18,7 +18,7 @@ export default async function AdminLayout({ children, params }: LayoutProps<"/[l
       <div className="flex flex-col gap-4 md:flex-row">
         <nav aria-label={t("nav.admin")} className="flex gap-2 overflow-x-auto md:w-56 md:flex-col">
           {links.map(([p, k]) => (
-            <Link key={p} href={`/${locale}/admin${p}`} className="whitespace-nowrap rounded px-2 py-1 text-sm hover:bg-surface-muted">
+            <Link key={p} href={`/${locale}/admin${p}`} className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm text-text-secondary hover:bg-surface-muted hover:text-text">
               {t(k)}
             </Link>
           ))}

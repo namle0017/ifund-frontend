@@ -1,45 +1,70 @@
 @import "tailwindcss";
 
-/* Design tokens (doc 14 §2): semantic names, AA contrast in light and dark. Brand not approved yet (B1). */
+/*
+ * Design tokens — DESIGN-stripe.md (deep navy ink, electric indigo primary, hairline surfaces, gradient-mesh hero).
+ * Semantic names are kept (doc 14 §2) so every screen picks the palette up; AA contrast checked in light and dark.
+ * Status colours (success/warning/danger) and data-kind colours (market/forecast) are product-UI colours the
+ * marketing spec leaves open; they are tuned to sit inside the indigo/ruby chroma.
+ */
 :root {
   --surface: #ffffff;
-  --surface-muted: #f4f6f8;
+  --surface-muted: #f6f9fc;
   --surface-raised: #ffffff;
-  --text: #16202a;
-  --text-muted: #4a5663;
-  --border: #d5dbe1;
-  --primary: #0b5cad;
+  --surface-cream: #f5e9d4;
+  --text: #0d253d;
+  --text-secondary: #273951;
+  /* ink-mute (#64748d) is 4.49:1 on canvas-soft — just under WCAG AA; nudged darker to 5.2:1. */
+  --text-muted: #596a82;
+  --border: #e3e8ee;
+  --border-input: #a8c3de;
+  --primary: #533afd;
+  --primary-deep: #4434d4;
+  --primary-press: #2e2b8c;
+  --primary-subdued: #b9b9f9;
   --primary-contrast: #ffffff;
-  --success: #1a7f37;
-  --warning: #9a6700;
-  --warning-bg: #fff8e5;
-  --danger: #b42318;
-  --danger-bg: #fdecea;
-  --info-bg: #e8f1fb;
-  --focus: #1f6feb;
-  --forecast: #6f42c1;
-  --market: #0e7490;
+  --ruby: #ea2261;
+  --success: #0e7a4f;
+  --warning: #8a5a1f;
+  --warning-bg: #fbf3e4;
+  --danger: #c0123f;
+  --danger-bg: #fdeef2;
+  --info-bg: #eeedff;
+  --focus: #533afd;
+  --forecast: #a3278f;
+  --market: #0b6e8a;
+  --shadow-1: 0 1px 3px rgba(0, 55, 112, 0.08);
+  --shadow-2: 0 8px 24px rgba(0, 55, 112, 0.08), 0 2px 6px rgba(0, 55, 112, 0.04);
 }
 
+/* "The dashboard track flips polarity to a familiar dark-app shell." */
 @media (prefers-color-scheme: dark) {
   :root {
-    --surface: #0f141a;
-    --surface-muted: #161d25;
-    --surface-raised: #1b232d;
-    --text: #e6edf3;
-    --text-muted: #a8b3bf;
-    --border: #334150;
-    --primary: #58a6ff;
-    --primary-contrast: #0b1016;
-    --success: #3fb950;
-    --warning: #e3b341;
-    --warning-bg: #2b2210;
-    --danger: #f47067;
-    --danger-bg: #2d1414;
-    --info-bg: #13233a;
-    --focus: #79c0ff;
-    --forecast: #bc8cff;
-    --market: #39c5cf;
+    --surface: #0a1628;
+    --surface-muted: #0f1f35;
+    --surface-raised: #122540;
+    --surface-cream: #2a2418;
+    --text: #e8eef6;
+    --text-secondary: #c9d4e3;
+    --text-muted: #9fb0c6;
+    --border: #243a57;
+    --border-input: #3b5b80;
+    --primary: #a39dff;
+    --primary-deep: #b9b4ff;
+    --primary-press: #cfcbff;
+    --primary-subdued: #2e2b8c;
+    --primary-contrast: #0d1030;
+    --ruby: #ff6b96;
+    --success: #4fd39a;
+    --warning: #e8b86a;
+    --warning-bg: #2a2112;
+    --danger: #ff7b9c;
+    --danger-bg: #331320;
+    --info-bg: #1b1f4a;
+    --focus: #a39dff;
+    --forecast: #f28ae3;
+    --market: #5cc8e6;
+    --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -47,11 +72,18 @@
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
   --color-surface-raised: var(--surface-raised);
+  --color-surface-cream: var(--surface-cream);
   --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-border: var(--border);
+  --color-border-input: var(--border-input);
   --color-primary: var(--primary);
+  --color-primary-deep: var(--primary-deep);
+  --color-primary-press: var(--primary-press);
+  --color-primary-subdued: var(--primary-subdued);
   --color-primary-contrast: var(--primary-contrast);
+  --color-ruby: var(--ruby);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-warning-bg: var(--warning-bg);
@@ -61,26 +93,205 @@
   --color-focus: var(--focus);
   --color-forecast: var(--forecast);
   --color-market: var(--market);
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-inter), "SF Pro Display", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --shadow-card: var(--shadow-1);
+  --shadow-float: var(--shadow-2);
 }
 
+/* Default UI body = body-md (15px / 300 / 1.4) with ss01 on globally. */
 body {
   background: var(--surface);
   color: var(--text);
   font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.4;
+  font-feature-settings: "ss01";
 }
 
 :focus-visible {
-  outline: 3px solid var(--focus);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
+/* Tabular-figure money type (body-tabular): every money / numeric cell. */
 .num {
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "ss01", "tnum";
+  letter-spacing: -0.02em;
 }
 
 /* WCAG 1.4.1: inline links are distinguishable without relying on colour alone. */
 a.text-primary {
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* Display tiers: thin weight + negative tracking; stair-step down on mobile. */
+@utility display-xxl {
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.9px;
+  @media (width >= 48rem) {
+    font-size: 56px;
+    line-height: 1.03;
+    letter-spacing: -1.4px;
+  }
+}
+@utility display-lg {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.26px;
+  @media (width >= 48rem) {
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.64px;
+  }
+}
+@utility heading-lg {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.22px;
+}
+@utility heading-md {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* button-primary-pill / button-secondary: pill, 8px 16px padding, ≥40px target. */
+@utility btn {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+@utility btn-primary {
+  background: var(--primary);
+  color: var(--primary-contrast);
+  &:hover:not(:disabled) {
+    background: var(--primary-deep);
+  }
+  &:active:not(:disabled) {
+    background: var(--primary-press);
+  }
+}
+@utility btn-secondary {
+  border-color: var(--primary);
+  background: var(--surface);
+  color: var(--primary);
+  &:hover:not(:disabled) {
+    background: var(--info-bg);
+  }
+}
+@utility btn-danger {
+  background: var(--danger);
+  color: var(--primary-contrast);
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}
+
+/* text-input: 6px radius, cool hairline, indigo border + halo on focus. */
+@utility field {
+  min-height: 2.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  padding: 8px 12px;
+  font-size: 15px;
+  color: var(--text);
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+}
+
+/* card-feature-light / card-dashboard-mockup. */
+@utility card {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-1);
+}
+
+/* Toggle chip for period / operation pickers. */
+@utility chip {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--border-input);
+  padding: 4px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/*
+ * Gradient-mesh backdrop: cream → sherbet → lavender → indigo → ruby washed across the top of the page. Layered
+ * blurred radial blobs (organic shapes) rather than one flat linear gradient; fades into the canvas below.
+ */
+.mesh {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 560px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent);
+  mask-image: linear-gradient(to bottom, black 45%, transparent);
+}
+.mesh::before {
+  content: "";
+  position: absolute;
+  inset: -160px -10% 0 -10%;
+  background:
+    radial-gradient(34% 55% at 6% 35%, #f5e9d4 0%, transparent 70%),
+    radial-gradient(28% 55% at 26% 22%, #ffb36b 0%, transparent 70%),
+    radial-gradient(32% 60% at 48% 38%, #c9b8ff 0%, transparent 70%),
+    radial-gradient(30% 55% at 68% 22%, #533afd 0%, transparent 72%),
+    radial-gradient(26% 50% at 86% 42%, #ea2261 0%, transparent 70%),
+    radial-gradient(20% 40% at 98% 12%, #f96bee 0%, transparent 70%);
+  filter: blur(36px) saturate(1.1);
+  transform: skewY(-6deg);
+  opacity: 0.8;
+}
+@media (prefers-color-scheme: dark) {
+  .mesh::before {
+    opacity: 0.4;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mesh::before {
+    animation: mesh-drift 24s ease-in-out infinite alternate;
+  }
+}
+@keyframes mesh-drift {
+  to {
+    transform: skewY(-6deg) translateX(3%);
+  }
 }

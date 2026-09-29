@@ -37,12 +37,12 @@ export default function ForecastPage({ params }: PageProps<"/[lang]/funds/[fundI
   const hasForecast = f.status === "Succeeded" && f.predictedNav;
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("forecast.title")}</h1>
+      <h1 className="display-lg">{t("forecast.title")}</h1>
       <div className="grid gap-4 md:grid-cols-2">
         <Card title={<span className="flex items-center gap-2">{t("labels.officialNav")} <DataLabel kind="official" /></span>}>
           {official ? (
             <>
-              <p className="num text-3xl font-bold">{formatNav(official.calculationNav, locale)}</p>
+              <p className="num display-lg">{formatNav(official.calculationNav, locale)}</p>
               <SourceStamp valuationDate={official.valuationDate} asOf={official.publishedAt} />
               {official.isStale && <DataLabel kind="stale" />}
             </>
@@ -53,7 +53,7 @@ export default function ForecastPage({ params }: PageProps<"/[lang]/funds/[fundI
         <Card title={<span className="flex items-center gap-2">{t("labels.forecastNav")} <DataLabel kind="forecast" /></span>}>
           {hasForecast ? (
             <>
-              <p className="num text-3xl font-bold text-forecast">{formatNav(f.predictedNav, locale)}</p>
+              <p className="num display-lg text-forecast">{formatNav(f.predictedNav, locale)}</p>
               <p className="text-sm">
                 {t("forecast.target")}: {formatDate(f.targetValuationDate, locale)}
               </p>

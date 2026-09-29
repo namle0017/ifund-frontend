@@ -167,7 +167,7 @@ function CalculatorInner() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("calc.title")}</h1>
+      <h1 className="display-lg">{t("calc.title")}</h1>
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
         <Card>
           <form
@@ -195,7 +195,7 @@ function CalculatorInner() {
                 <fieldset className="flex flex-wrap gap-2">
                   <legend className="mb-1 text-sm font-medium">{t("calc.operation")}</legend>
                   {operations.map((op) => (
-                    <label key={op} className={`cursor-pointer rounded border px-3 py-1 text-sm ${form.operation === op ? "border-primary bg-info-bg" : "border-border"}`}>
+                    <label key={op} className={`chip ${form.operation === op ? "border-primary bg-info-bg text-primary" : ""}`}>
                       <input type="radio" name="operation" value={op} checked={form.operation === op} onChange={() => set("operation", op)} className="sr-only" />
                       {t(`calc.${op}`)}
                     </label>

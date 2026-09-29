@@ -85,7 +85,10 @@
     "subtitle": "Quỹ mở, ETF và quỹ đóng — dữ liệu có nguồn, thời điểm và trạng thái xác minh rõ ràng.",
     "searchPlaceholder": "Tên hoặc mã quỹ",
     "ctaFunds": "Khám phá quỹ",
-    "ctaCalculator": "Mở Calculator"
+    "ctaCalculator": "Mở Calculator",
+    "eyebrow": "Nền tảng dữ liệu chứng chỉ quỹ",
+    "illustration": "Minh hoạ — không phải dữ liệu thật",
+    "pillarsTitle": "Ba loại quỹ, một cách tính minh bạch"
   },
   "funds": {
     "title": "Danh sách quỹ",
@@ -505,5 +508,16 @@
     "GrossProceeds": "Trên giá trị bán",
     "RealizedGain": "Trên lãi thực hiện",
     "DistributionAmount": "Trên khoản phân phối"
+  },
+  "notes": {
+    "AGGREGATE_EXCLUDES_INTERNAL_TRANSFERS": "Số tổng hợp không tính các giao dịch chuyển nội bộ giữa danh mục.",
+    "MARKET_VALUE_NOT_AVAILABLE_MISSING_VERIFIED_PRICE": "Chưa có giá trị thị trường vì thiếu giá đã xác minh.",
+    "XIRR_NO_CONVERGENCE": "Không tính được XIRR (thuật toán không hội tụ).",
+    "XIRR_REQUIRES_INFLOW_AND_OUTFLOW": "XIRR cần có cả dòng tiền vào và dòng tiền ra.",
+    "INSUFFICIENT_HISTORY": "Chưa đủ lịch sử dữ liệu.",
+    "INSUFFICIENT_OBSERVATIONS": "Chưa đủ số quan sát (tối thiểu 20).",
+    "NO_COMMON_START": "Các chuỗi không có ngày bắt đầu chung.",
+    "DISTRIBUTION_POLICY_UNKNOWN": "Chưa rõ chính sách phân phối.",
+    "TOTAL_RETURN_REQUIRES_NAV_SERIES": "Tổng lợi nhuận cần chuỗi NAV đã xác minh và dữ liệu phân phối."
   }
 }

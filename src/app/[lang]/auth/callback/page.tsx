@@ -10,7 +10,7 @@ function CallbackInner() {
   const { t, locale } = useI18n();
   const error = useSearchParams().get("error");
   return (
-    <Card title={t("auth.callbackTitle")} className="mx-auto w-full max-w-md">
+    <Card title={t("auth.callbackTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
       {error ? (
         <Alert tone={error === "ACCOUNT_EXISTS_LINK_REQUIRED" ? "warning" : "danger"}>{t(`errors.${error}`, t("common.error"))}</Alert>
       ) : (

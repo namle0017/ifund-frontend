@@ -32,14 +32,21 @@ export function AnalyticsView({ fundId, fundType }: { fundId: string; fundType: 
   });
 
   const metric = (m?: S<"MetricDto"> | null) =>
-    m?.value != null ? formatRatioPercent(m.value, locale) : <span className="text-text-muted">{t("common.notAvailable")} ({m?.notAvailableReason ?? "—"})</span>;
+    m?.value != null ? (
+      formatRatioPercent(m.value, locale)
+    ) : (
+      <span className="text-text-muted">
+        {t("common.notAvailable")}
+        {m?.notAvailableReason && <span className="mt-1 block break-words text-xs tracking-normal">{t(`notes.${m.notAvailableReason}`, m.notAvailableReason)}</span>}
+      </span>
+    );
 
   return (
     <div className="flex flex-col gap-4">
       <fieldset className="flex flex-wrap gap-2">
         <legend className="sr-only">{t("analytics.period")}</legend>
         {PERIODS.map((p) => (
-          <button key={p} type="button" aria-pressed={p === period} onClick={() => setPeriod(p)} className={`rounded border px-3 py-1 text-sm ${p === period ? "border-primary bg-primary text-primary-contrast" : "border-border"}`}>
+          <button key={p} type="button" aria-pressed={p === period} onClick={() => setPeriod(p)} className={`chip ${p === period ? "border-primary bg-primary text-primary-contrast" : ""}`}>
             {p}
           </button>
         ))}
@@ -58,9 +65,9 @@ export function AnalyticsView({ fundId, fundType }: { fundId: string; fundType: 
               ["analytics.maxDrawdown", analytics.data.maxDrawdown],
             ] as const
           ).map(([k, m]) => (
-            <div key={k} className="rounded-lg border border-border p-3">
+            <div key={k} className="card min-w-0 p-4">
               <dt className="text-xs text-text-muted">{t(k)}</dt>
-              <dd className="num text-lg font-semibold">{metric(m)}</dd>
+              <dd className="num mt-1 text-2xl font-light tracking-tight">{metric(m)}</dd>
             </div>
           ))}
         </dl>

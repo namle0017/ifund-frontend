@@ -50,7 +50,7 @@ export function SourceStamp({ asOf, valuationDate, source }: { asOf?: string | n
 export function Disclaimer({ variant = "short" }: { variant?: "short" | "estimate" | "forecast" }) {
   const { t } = useI18n();
   return (
-    <aside className="rounded-md border border-border bg-surface-muted px-3 py-2 text-xs text-text-muted">
+    <aside className="rounded-lg border border-border bg-surface-muted px-4 py-3 text-xs text-text-muted">
       <p>{t(`disclaimer.${variant}`)}</p>
       <p className="mt-1 italic">{t("disclaimer.pendingLegal")}</p>
     </aside>

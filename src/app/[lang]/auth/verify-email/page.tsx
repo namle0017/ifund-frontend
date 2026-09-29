@@ -28,7 +28,7 @@ function VerifyInner() {
   }, [params]);
 
   return (
-    <Card title={t("auth.verifyTitle")} className="mx-auto w-full max-w-md">
+    <Card title={t("auth.verifyTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
       {state === "pending" ? (
         <Loading label={t("common.loading")} />
       ) : state === "ok" ? (

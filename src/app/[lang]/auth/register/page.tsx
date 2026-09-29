@@ -22,7 +22,7 @@ export default function RegisterPage() {
 
   if (done) {
     return (
-      <Card title={t("auth.registerTitle")} className="mx-auto w-full max-w-md">
+      <Card title={t("auth.registerTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
         <Alert tone="success" live>
           {t("auth.registered")}
         </Alert>
@@ -31,7 +31,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card title={t("auth.registerTitle")} className="mx-auto w-full max-w-md">
+    <Card title={t("auth.registerTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
       <form
         className="flex flex-col gap-3"
         onSubmit={async (e) => {

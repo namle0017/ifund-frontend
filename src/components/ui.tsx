@@ -5,10 +5,10 @@ import { useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactN
 type Variant = "primary" | "secondary" | "danger" | "ghost";
 
 const buttonStyles: Record<Variant, string> = {
-  primary: "bg-primary text-primary-contrast hover:opacity-90",
-  secondary: "border border-border bg-surface-raised text-text hover:bg-surface-muted",
-  danger: "bg-danger text-white hover:opacity-90",
-  ghost: "text-primary hover:underline",
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  danger: "btn-danger",
+  ghost: "text-primary hover:bg-info-bg",
 };
 
 export function Button({ variant = "primary", busy, className = "", children, disabled, ...rest }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; busy?: boolean }) {
@@ -17,7 +17,7 @@ export function Button({ variant = "primary", busy, className = "", children, di
       {...rest}
       disabled={disabled || busy}
       aria-busy={busy || undefined}
-      className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50 ${buttonStyles[variant]} ${className}`}
+      className={`btn ${buttonStyles[variant]} ${className}`}
     >
       {busy && <Spinner small />}
       {children}
@@ -27,10 +27,10 @@ export function Button({ variant = "primary", busy, className = "", children, di
 
 export function Card({ title, actions, children, className = "" }: { title?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={`rounded-lg border border-border bg-surface-raised p-4 shadow-sm ${className}`}>
+    <section className={`card p-5 md:p-6 ${className}`}>
       {(title || actions) && (
-        <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          {title && <h2 className="text-lg font-semibold">{title}</h2>}
+        <header className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          {title && <h2 className="heading-lg">{title}</h2>}
           {actions}
         </header>
       )}
@@ -54,7 +54,7 @@ export function Field({ label, hint, error, children }: FieldProps) {
   const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="text-sm font-medium">
+      <label htmlFor={id} className="text-sm font-normal text-text-secondary">
         {label}
       </label>
       {children(id, describedBy)}
@@ -72,7 +72,7 @@ export function Field({ label, hint, error, children }: FieldProps) {
   );
 }
 
-const inputClass = "min-h-10 rounded-md border border-border bg-surface px-3 py-2 text-sm text-text";
+const inputClass = "field";
 
 export function TextInput({ invalid, className = "", ...rest }: InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }) {
   return <input {...rest} aria-invalid={invalid || undefined} className={`${inputClass} ${invalid ? "border-danger" : ""} ${className}`} />;
@@ -90,7 +90,7 @@ export function Checkbox({ label, ...rest }: InputHTMLAttributes<HTMLInputElemen
   const id = useId();
   return (
     <div className="flex items-start gap-2">
-      <input id={id} type="checkbox" className="mt-1 h-4 w-4" {...rest} />
+      <input id={id} type="checkbox" className="mt-1 h-4 w-4 accent-primary" {...rest} />
       <label htmlFor={id} className="text-sm">
         {label}
       </label>
@@ -101,16 +101,16 @@ export function Checkbox({ label, ...rest }: InputHTMLAttributes<HTMLInputElemen
 type Tone = "info" | "warning" | "danger" | "success";
 
 const alertStyles: Record<Tone, string> = {
-  info: "border-primary/40 bg-info-bg",
-  warning: "border-warning/50 bg-warning-bg",
-  danger: "border-danger/50 bg-danger-bg",
-  success: "border-success/50 bg-surface-muted",
+  info: "border-primary/30 bg-info-bg",
+  warning: "border-warning/40 bg-warning-bg",
+  danger: "border-danger/40 bg-danger-bg",
+  success: "border-success/40 bg-surface-muted",
 };
 
 export function Alert({ tone = "info", title, children, live }: { tone?: Tone; title?: ReactNode; children?: ReactNode; live?: boolean }) {
   return (
-    <div role={live ? "status" : undefined} className={`rounded-md border px-3 py-2 text-sm ${alertStyles[tone]}`}>
-      {title && <p className="font-semibold">{title}</p>}
+    <div role={live ? "status" : undefined} className={`rounded-lg border px-4 py-3 text-sm ${alertStyles[tone]}`}>
+      {title && <p className="font-medium">{title}</p>}
       {children}
     </div>
   );
@@ -118,16 +118,16 @@ export function Alert({ tone = "info", title, children, live }: { tone?: Tone; t
 
 export function Badge({ tone = "neutral", children, title }: { tone?: "neutral" | "official" | "market" | "forecast" | "warning" | "danger" | "success"; children: ReactNode; title?: string }) {
   const styles = {
-    neutral: "border-border text-text-muted",
-    official: "border-primary text-primary",
-    market: "border-market text-market",
-    forecast: "border-forecast text-forecast border-dashed",
-    warning: "border-warning text-warning",
-    danger: "border-danger text-danger",
-    success: "border-success text-success",
+    neutral: "border-border bg-surface-muted text-text-muted",
+    official: "border-transparent bg-primary-subdued/60 text-primary-deep dark:text-primary",
+    market: "border-market/40 bg-market/10 text-market",
+    forecast: "border-forecast/60 bg-forecast/10 text-forecast border-dashed",
+    warning: "border-warning/40 bg-warning-bg text-warning",
+    danger: "border-danger/40 bg-danger-bg text-danger",
+    success: "border-success/40 bg-success/10 text-success",
   }[tone];
   return (
-    <span title={title} className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${styles}`}>
+    <span title={title} className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-normal normal-case tracking-normal ${styles}`}>
       {children}
     </span>
   );
@@ -153,7 +153,7 @@ export function DataTable({ caption, headers, rows, emptyLabel }: { caption: Rea
         <thead>
           <tr className="border-b border-border text-left">
             {headers.map((h, i) => (
-              <th key={i} scope="col" className="px-2 py-2 font-semibold">
+              <th key={i} scope="col" className="px-3 py-2 text-xs font-normal text-text-muted">
                 {h}
               </th>
             ))}
@@ -162,15 +162,15 @@ export function DataTable({ caption, headers, rows, emptyLabel }: { caption: Rea
         <tbody>
           {rows.length === 0 && emptyLabel ? (
             <tr>
-              <td colSpan={headers.length} className="px-2 py-4 text-center text-text-muted">
+              <td colSpan={headers.length} className="px-3 py-6 text-center text-text-muted">
                 {emptyLabel}
               </td>
             </tr>
           ) : (
             rows.map((r, i) => (
-              <tr key={i} className="border-b border-border/60">
+              <tr key={i} className="border-b border-border last:border-b-0 hover:bg-surface-muted">
                 {r.map((c, j) => (
-                  <td key={j} className="num px-2 py-2 align-top">
+                  <td key={j} className="num px-3 py-2.5 align-top">
                     {c}
                   </td>
                 ))}

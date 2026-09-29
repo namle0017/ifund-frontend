@@ -55,7 +55,7 @@ export default function PlansPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("plans.title")}</h1>
+      <h1 className="display-lg">{t("plans.title")}</h1>
       <Alert tone="info">
         {t("plans.noStepUp")} {t("plans.longTermP1")}
       </Alert>

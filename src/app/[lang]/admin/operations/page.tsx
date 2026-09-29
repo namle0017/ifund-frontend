@@ -26,7 +26,7 @@ export default function OperationsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.operations")}</h1>
+      <h1 className="display-lg">{t("admin.operations")}</h1>
       <Card title={t("admin.audit")}>
         {audit.error && <ErrorState error={audit.error} />}
         <DataTable

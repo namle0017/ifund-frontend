@@ -21,7 +21,7 @@ export function StepUpGate({ children }: { children: ReactNode }) {
 
   return (
     <form
-      className="flex flex-col gap-2 rounded-md border border-warning/50 bg-warning-bg p-3"
+      className="flex flex-col gap-2 rounded-lg border border-warning/40 bg-warning-bg p-4"
       onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);

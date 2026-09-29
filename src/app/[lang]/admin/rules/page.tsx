@@ -100,7 +100,7 @@ export default function RulesPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.rules")}</h1>
+      <h1 className="display-lg">{t("admin.rules")}</h1>
       <Alert tone="warning">Mọi phí, thuế, lịch phải lấy từ tài liệu chính thức của từng quỹ; không nhập giá trị giả định (A4, VERIFY-04).</Alert>
 
       <Card title={`${t("admin.verify")} (${unverified.length})`}>
@@ -108,7 +108,7 @@ export default function RulesPage() {
         <StepUpGate>
           <ul className="flex flex-col gap-3">
             {unverified.map((r) => (
-              <li key={r.id} className="rounded border border-border p-3 text-sm">
+              <li key={r.id} className="rounded-lg border border-border p-4 text-sm">
                 <p className="font-semibold">
                   {r.k} · {r.code ?? r.ruleCode ?? r.mechanism ?? r.exchangeCode ?? ""} · {r.version}
                 </p>
@@ -116,7 +116,7 @@ export default function RulesPage() {
               </li>
             ))}
             {(rules.data?.pendingCalendarDates ?? []).map((d) => (
-              <li key={d.id} className="rounded border border-border p-3 text-sm">
+              <li key={d.id} className="rounded-lg border border-border p-4 text-sm">
                 <p className="font-semibold">
                   Holiday API · {d.date} · {d.kind}
                 </p>
@@ -133,7 +133,7 @@ export default function RulesPage() {
             {(rules.data?.distributionEvents ?? [])
               .filter((d) => d.status === "PendingReview")
               .map((d) => (
-                <li key={d.id} className="rounded border border-border p-3 text-sm">
+                <li key={d.id} className="rounded-lg border border-border p-4 text-sm">
                   <p className="font-semibold">DistributionEvent · {d.id.slice(0, 8)}</p>
                   <DecisionForm
                     busy={reviewEvent.isPending}
@@ -176,7 +176,7 @@ export default function RulesPage() {
             </SelectInput>
           )}
         </div>
-        <textarea aria-label="JSON" className="mt-2 min-h-64 w-full rounded border border-border bg-surface p-2 font-mono text-xs" value={json} onChange={(e) => setJson(e.target.value)} />
+        <textarea aria-label="JSON" className="mt-2 min-h-64 w-full field font-mono text-xs" value={json} onChange={(e) => setJson(e.target.value)} />
         {parseError && <Alert tone="danger">{parseError}</Alert>}
         <Button
           className="mt-2"

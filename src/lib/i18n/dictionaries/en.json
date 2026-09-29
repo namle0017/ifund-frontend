@@ -85,7 +85,10 @@
     "subtitle": "Open funds, ETFs and closed funds — every figure shows its source, time and verification status.",
     "searchPlaceholder": "Fund name or code",
     "ctaFunds": "Explore funds",
-    "ctaCalculator": "Open calculator"
+    "ctaCalculator": "Open calculator",
+    "eyebrow": "Fund certificate data platform",
+    "illustration": "Illustration — not real data",
+    "pillarsTitle": "Three fund types, one transparent method"
   },
   "funds": {
     "title": "Funds",
@@ -505,5 +508,16 @@
     "GrossProceeds": "On gross proceeds",
     "RealizedGain": "On realised gain",
     "DistributionAmount": "On distribution amount"
+  },
+  "notes": {
+    "AGGREGATE_EXCLUDES_INTERNAL_TRANSFERS": "Aggregate figures exclude internal transfers between portfolios.",
+    "MARKET_VALUE_NOT_AVAILABLE_MISSING_VERIFIED_PRICE": "Market value unavailable: no verified price.",
+    "XIRR_NO_CONVERGENCE": "XIRR could not be computed (no convergence).",
+    "XIRR_REQUIRES_INFLOW_AND_OUTFLOW": "XIRR needs both an inflow and an outflow.",
+    "INSUFFICIENT_HISTORY": "Not enough history.",
+    "INSUFFICIENT_OBSERVATIONS": "Not enough observations (minimum 20).",
+    "NO_COMMON_START": "Series share no common start date.",
+    "DISTRIBUTION_POLICY_UNKNOWN": "Distribution policy unknown.",
+    "TOTAL_RETURN_REQUIRES_NAV_SERIES": "Total return needs a verified NAV series and distribution data."
   }
 }

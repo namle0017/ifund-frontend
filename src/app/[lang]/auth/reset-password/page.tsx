@@ -32,7 +32,7 @@ function ResetInner() {
   };
 
   return (
-    <Card title={t("auth.resetTitle")} className="mx-auto w-full max-w-md">
+    <Card title={t("auth.resetTitle")} className="mx-auto w-full max-w-md shadow-float md:mt-10">
       {message ? (
         <Alert tone="success" live>
           {message}

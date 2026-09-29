@@ -43,7 +43,7 @@ export default function TransactionPage({ params }: PageProps<"/[lang]/app/trans
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-2">
-        <h1 className="text-2xl font-bold">
+        <h1 className="display-lg">
           {x.fundCode} · {t(`mechanism.${x.mechanism}`)}
         </h1>
         <UserStatusBadge status={x.userStatus!} />
@@ -120,7 +120,7 @@ export default function TransactionPage({ params }: PageProps<"/[lang]/app/trans
               </ul>
             </Alert>
           ) : (
-            <Link href={`/${locale}/app/transactions/${id}/complete`} className="inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-contrast">
+            <Link href={`/${locale}/app/transactions/${id}/complete`} className="btn btn-primary self-start">
               {t("tx.complete")}
             </Link>
           )}

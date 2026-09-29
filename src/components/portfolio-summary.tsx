@@ -16,7 +16,17 @@ export function PortfolioSummaryView({ summary }: { summary: S<"PortfolioSummary
     [t("portfolio.marketValue"), summary.totalMarketValue != null ? formatVnd(summary.totalMarketValue, locale) : na],
     [t("portfolio.unrealized"), summary.unrealizedPnl != null ? formatVnd(summary.unrealizedPnl, locale) : na],
     [t("portfolio.realized"), formatVnd(summary.realizedPnl, locale)],
-    [t("portfolio.xirr"), summary.xirr?.value != null ? formatRatioPercent(summary.xirr.value, locale) : `${na} (${summary.xirr?.notAvailableReason ?? "—"})`],
+    [
+      t("portfolio.xirr"),
+      summary.xirr?.value != null ? (
+        formatRatioPercent(summary.xirr.value, locale)
+      ) : (
+        <>
+          {na}
+          <span className="mt-1 block text-xs tracking-normal text-text-muted">{summary.xirr?.notAvailableReason ? t(`notes.${summary.xirr.notAvailableReason}`, summary.xirr.notAvailableReason) : "—"}</span>
+        </>
+      ),
+    ],
     [t("portfolio.pendingCount"), summary.pendingReconciliation],
     [t("portfolio.provisionalCount"), summary.provisionalTransactions],
   ];
@@ -25,13 +35,13 @@ export function PortfolioSummaryView({ summary }: { summary: S<"PortfolioSummary
     <div className="flex flex-col gap-4">
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map(([label, value]) => (
-          <div key={label} className="rounded-lg border border-border p-3">
+          <div key={label} className="card min-w-0 p-4">
             <dt className="text-xs text-text-muted">{label}</dt>
-            <dd className="num text-lg font-semibold">{value}</dd>
+            <dd className="num mt-1 text-2xl font-light tracking-tight">{value}</dd>
           </div>
         ))}
       </dl>
-      {(summary.notes ?? []).length > 0 && <Alert tone="warning">{(summary.notes ?? []).join(" · ")}</Alert>}
+      {(summary.notes ?? []).length > 0 && <Alert tone="warning">{(summary.notes ?? []).map((n) => t(`notes.${n}`, n)).join(" · ")}</Alert>}
       {(summary.holdings ?? []).length === 0 ? (
         <p className="text-text-muted">{t("portfolio.noHoldings")}</p>
       ) : (

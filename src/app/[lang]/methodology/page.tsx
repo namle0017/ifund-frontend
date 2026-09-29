@@ -25,7 +25,7 @@ export default async function MethodologyPage({ params }: PageProps<"/[lang]/met
       ];
   return (
     <article className="prose flex max-w-3xl flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("nav.methodology")}</h1>
+      <h1 className="display-lg">{t("nav.methodology")}</h1>
       <ol className="list-decimal space-y-2 pl-6">
         {items.map((i) => (
           <li key={i}>{i}</li>

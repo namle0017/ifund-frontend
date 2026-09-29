@@ -42,18 +42,18 @@ export default function DataSourcesPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">{t("admin.dataSources")}</h1>
+      <h1 className="display-lg">{t("admin.dataSources")}</h1>
       <Card title={t("admin.reviewCases")}>
         {cases.error && <ErrorState error={cases.error} />}
         {(cases.data ?? []).length === 0 && <p className="text-text-muted">{t("common.empty")}</p>}
         <StepUpGate>
           <ul className="flex flex-col gap-4">
             {(cases.data ?? []).map((c) => (
-              <li key={c.id} className="rounded border border-border p-3 text-sm">
+              <li key={c.id} className="rounded-lg border border-border p-4 text-sm">
                 <p className="font-semibold">
                   {c.kind} · {formatDate(c.valuationDate, locale)}
                 </p>
-                <pre className="my-2 overflow-x-auto rounded bg-surface-muted p-2 text-xs">{c.detailsJson}</pre>
+                <pre className="my-2 overflow-x-auto rounded-md bg-surface-muted p-3 text-xs">{c.detailsJson}</pre>
                 <DecisionForm
                   busy={decide.isPending}
                   actions={[
@@ -105,7 +105,7 @@ export default function DataSourcesPage() {
       <Card title={t("admin.importNav")}>
         <label className="flex flex-col gap-1 text-sm">
           CSV
-          <textarea className="min-h-32 rounded border border-border bg-surface p-2 font-mono text-xs" value={csv} onChange={(e) => setCsv(e.target.value)} />
+          <textarea className="min-h-32 field font-mono text-xs" value={csv} onChange={(e) => setCsv(e.target.value)} />
         </label>
         <Button className="mt-2" busy={importCsv.isPending} onClick={() => importCsv.mutate()}>
           {t("admin.importNav")}
