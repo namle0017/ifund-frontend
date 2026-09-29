@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/* Design tokens (doc 14 §2): semantic names, AA contrast in light and dark. Brand not approved yet (B1). */
+:root {
+  --surface: #ffffff;
+  --surface-muted: #f4f6f8;
+  --surface-raised: #ffffff;
+  --text: #16202a;
+  --text-muted: #4a5663;
+  --border: #d5dbe1;
+  --primary: #0b5cad;
+  --primary-contrast: #ffffff;
+  --success: #1a7f37;
+  --warning: #9a6700;
+  --warning-bg: #fff8e5;
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --info-bg: #e8f1fb;
+  --focus: #1f6feb;
+  --forecast: #6f42c1;
+  --market: #0e7490;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #0f141a;
+    --surface-muted: #161d25;
+    --surface-raised: #1b232d;
+    --text: #e6edf3;
+    --text-muted: #a8b3bf;
+    --border: #334150;
+    --primary: #58a6ff;
+    --primary-contrast: #0b1016;
+    --success: #3fb950;
+    --warning: #e3b341;
+    --warning-bg: #2b2210;
+    --danger: #f47067;
+    --danger-bg: #2d1414;
+    --info-bg: #13233a;
+    --focus: #79c0ff;
+    --forecast: #bc8cff;
+    --market: #39c5cf;
+  }
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-contrast: var(--primary-contrast);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-info-bg: var(--info-bg);
+  --color-focus: var(--focus);
+  --color-forecast: var(--forecast);
+  --color-market: var(--market);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* WCAG 1.4.1: inline links are distinguishable without relying on colour alone. */
+a.text-primary {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
