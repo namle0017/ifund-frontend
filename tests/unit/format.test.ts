@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDecimal, formatNav, formatRatioPercent, formatVnd, parseAmountInput, percentToRatio, shiftDecimal, sumDecimals } from "@/lib/format";
+import { formatDateTime, formatDecimal, formatNav, formatRatioPercent, formatVnd, parseAmountInput, percentToRatio, shiftDecimal, sumDecimals } from "@/lib/format";
 
 describe("formatting (display only — BE owns rounding)", () => {
   it("groups VND with locale separators without floating point", () => {
@@ -38,5 +38,12 @@ describe("formatting (display only — BE owns rounding)", () => {
     expect(parseAmountInput("10,000,000.5", "en")).toBe("10000000.5");
     expect(parseAmountInput("1,5", "vi")).toBe("1.5");
     expect(parseAmountInput("12a", "vi")).toBeNull();
+  });
+});
+
+describe("formatDateTime", () => {
+  it("shows a 4-digit year and hh:mm in Vietnam time (cut-off display)", () => {
+    expect(formatDateTime("2026-09-30T15:00:00+07:00", "vi")).toBe("15:00 30/09/2026 (GMT+7)");
+    expect(formatDateTime("2026-09-30T08:00:00Z", "en")).toBe("15:00 2026-09-30 (GMT+7)");
   });
 });

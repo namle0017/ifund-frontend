@@ -49,7 +49,10 @@
     "settings": "Account",
     "admin": "Admin",
     "skipToContent": "Skip to main content",
-    "menu": "Menu"
+    "menu": "Menu",
+    "assets": "Asset management",
+    "account": "My account",
+    "accountMenu": "Account menu"
   },
   "disclaimer": {
     "short": "This app does not place orders, give personalised investment advice or guarantee returns or execution dates.",
@@ -114,7 +117,20 @@
     "forecast": "Short-term NAV forecast",
     "calculate": "Estimate a trade",
     "noVerifiedData": "No verified data for this fund yet.",
-    "pendingReview": "New data is awaiting Admin verification; the approved version is shown."
+    "pendingReview": "New data is awaiting Admin verification; the approved version is shown.",
+    "colName": "Fund / type",
+    "colIssuer": "Issuer",
+    "colPrice": "Latest price",
+    "colReturn1y": "Return, last 1 year",
+    "colReturn3y": "Annualised return (3 years)",
+    "colAction": "Action",
+    "priceByNav": "Official NAV as of",
+    "priceByMarket": "Market price as of",
+    "navReference": "Official NAV",
+    "sortBy": "Sort descending by",
+    "sortedDesc": "sorted descending",
+    "viewAll": "View all",
+    "returnsNote": "Returns use the verified official NAV (open funds) or exchange close (ETF/closed funds), excluding distributions; “—” means not enough data. Past performance does not guarantee future results."
   },
   "distributionPolicy": {
     "Unknown": "Not verified",
@@ -205,7 +221,10 @@
     "exchangeNote": "ETFs/closed funds trade on exchange at market prices; NAV is reference only.",
     "referenceClose": "Latest closing price (reference)",
     "referenceNav": "Reference NAV",
-    "portfolioForLots": "Use lots from portfolio"
+    "portfolioForLots": "Use lots from portfolio",
+    "enteredDate": "Date",
+    "enteredTime": "Time (hh:mm)",
+    "enteredTimeRequired": "Please enter the order time (hh:mm) together with the date."
   },
   "forecast": {
     "title": "Short-term NAV forecast",

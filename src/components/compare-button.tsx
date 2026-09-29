@@ -14,7 +14,7 @@ export function CompareButton({ fundId }: { fundId: string }) {
       <button
         type="button"
         aria-pressed={selected}
-        className={`rounded-full border px-3 py-1.5 text-xs ${selected ? "border-primary bg-info-bg text-primary" : "border-border-input text-text-secondary hover:border-primary hover:text-primary"}`}
+        className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs ${selected ? "border-primary bg-info-bg text-primary" : "border-border-input text-text-secondary hover:border-primary hover:text-primary"}`}
         onClick={() => {
           if (selected) {
             removeFromCompare(fundId);

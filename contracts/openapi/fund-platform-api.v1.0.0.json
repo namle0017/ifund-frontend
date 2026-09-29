@@ -440,6 +440,13 @@
               ],
               "format": "int32"
             }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -5204,7 +5211,10 @@
           "managementCompany",
           "isSynthetic",
           "latestNav",
-          "latestMarketPrice"
+          "latestMarketPrice",
+          "return1Y",
+          "annualizedReturn3Y",
+          "returnSeriesKind"
         ],
         "type": "object",
         "properties": {
@@ -5255,6 +5265,15 @@
                 "$ref": "#/components/schemas/MarketPriceSummary"
               }
             ]
+          },
+          "return1Y": {
+            "$ref": "#/components/schemas/MetricDto"
+          },
+          "annualizedReturn3Y": {
+            "$ref": "#/components/schemas/MetricDto"
+          },
+          "returnSeriesKind": {
+            "type": "string"
           }
         }
       },

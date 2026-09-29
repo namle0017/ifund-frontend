@@ -667,6 +667,7 @@ export interface paths {
                     managementCompany?: string;
                     cursor?: string;
                     limit?: number | string;
+                    sort?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4136,6 +4137,9 @@ export interface components {
             isSynthetic: boolean;
             latestNav: null | components["schemas"]["NavSummary"];
             latestMarketPrice: null | components["schemas"]["MarketPriceSummary"];
+            return1Y: components["schemas"]["MetricDto"];
+            annualizedReturn3Y: components["schemas"]["MetricDto"];
+            returnSeriesKind: string;
         };
         /** @enum {unknown} */
         FundStatus: "Draft" | "Active" | "Hidden";

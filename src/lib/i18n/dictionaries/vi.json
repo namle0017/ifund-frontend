@@ -49,7 +49,10 @@
     "settings": "Tài khoản",
     "admin": "Quản trị",
     "skipToContent": "Bỏ qua đến nội dung chính",
-    "menu": "Menu"
+    "menu": "Menu",
+    "assets": "Quản lý tài sản",
+    "account": "Tài khoản của tôi",
+    "accountMenu": "Menu tài khoản"
   },
   "disclaimer": {
     "short": "Ứng dụng không đặt lệnh, không tư vấn đầu tư cá nhân hóa và không bảo đảm lợi nhuận hay ngày thực hiện.",
@@ -114,7 +117,20 @@
     "forecast": "Dự báo NAV ngắn hạn",
     "calculate": "Tính giao dịch",
     "noVerifiedData": "Chưa có dữ liệu đã xác minh cho quỹ này.",
-    "pendingReview": "Có dữ liệu mới đang chờ Admin xác minh; hiển thị bản đã duyệt."
+    "pendingReview": "Có dữ liệu mới đang chờ Admin xác minh; hiển thị bản đã duyệt.",
+    "colName": "Tên CCQ / Loại quỹ",
+    "colIssuer": "Tổ chức phát hành",
+    "colPrice": "Giá gần nhất",
+    "colReturn1y": "Lợi nhuận 1 năm gần nhất",
+    "colReturn3y": "LN bình quân hàng năm (theo 3 năm)",
+    "colAction": "Thao tác",
+    "priceByNav": "Theo NAV chính thức tại",
+    "priceByMarket": "Giá thị trường tại",
+    "navReference": "NAV chính thức",
+    "sortBy": "Sắp xếp giảm dần theo",
+    "sortedDesc": "đang sắp xếp giảm dần",
+    "viewAll": "Xem tất cả",
+    "returnsNote": "Lợi nhuận tính theo thay đổi của NAV chính thức (quỹ mở) hoặc giá đóng cửa trên sàn (ETF/quỹ đóng) đã xác minh, chưa gồm phân phối; “—” là chưa đủ dữ liệu. Hiệu suất quá khứ không đảm bảo kết quả tương lai."
   },
   "distributionPolicy": {
     "Unknown": "Chưa xác minh",
@@ -205,7 +221,10 @@
     "exchangeNote": "ETF/quỹ đóng giao dịch trên sàn theo giá thị trường; NAV chỉ để tham chiếu.",
     "referenceClose": "Giá đóng cửa gần nhất (tham chiếu)",
     "referenceNav": "NAV tham chiếu",
-    "portfolioForLots": "Dùng lô trong danh mục"
+    "portfolioForLots": "Dùng lô trong danh mục",
+    "enteredDate": "Ngày",
+    "enteredTime": "Giờ (giờ:phút)",
+    "enteredTimeRequired": "Vui lòng nhập giờ đặt lệnh (giờ:phút) cùng với ngày."
   },
   "forecast": {
     "title": "Dự báo NAV ngắn hạn",

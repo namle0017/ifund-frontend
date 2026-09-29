@@ -49,6 +49,15 @@ const emptyForm = (fundId = ""): FormState => ({
   portfolioId: "",
 });
 
+/** "YYYY-MM-DD" + "HH:mm" → "YYYY-MM-DDTHH:mm" (minute precision); a date alone is kept so the time can still be entered. */
+function joinDateTime(date: string, time: string): string {
+  if (!date) {
+    return "";
+  }
+
+  return time ? `${date}T${time}` : date;
+}
+
 function CalculatorInner() {
   const { t, locale } = useI18n();
   const search = useSearchParams();
@@ -115,6 +124,12 @@ function CalculatorInner() {
     const broker = form.brokerPercent ? percentToRatio(form.brokerPercent) : null;
     if ((form.amount && !amount) || (form.units && !units) || (form.targetUnits && !targetUnits) || (form.marketPrice && !marketPrice) || (form.brokerPercent && !broker)) {
       setInputError(t("errors.VALIDATION_ERROR"));
+      return null;
+    }
+
+    // A date without hh:mm cannot be compared with the cut-off; ask for the time instead of guessing one.
+    if (form.enteredAt && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(form.enteredAt)) {
+      setInputError(t("calc.enteredTimeRequired"));
       return null;
     }
 
@@ -250,9 +265,27 @@ function CalculatorInner() {
                     )}
                   </Field>
                 )}
-                <Field label={t("calc.enteredAt")} hint="GMT+7">
-                  {(id, d) => <TextInput id={id} aria-describedby={d} type="datetime-local" value={form.enteredAt} onChange={(e) => set("enteredAt", e.target.value)} />}
-                </Field>
+                {/* Order time is captured to the minute only (hh:mm, GMT+7); the BE compares it against the cut-off. */}
+                <fieldset className="flex flex-col gap-1">
+                  <legend className="mb-1 text-sm text-text-secondary">{t("calc.enteredAt")} (GMT+7)</legend>
+                  <div className="grid grid-cols-[1fr_8rem] gap-2">
+                    <Field label={<span className="text-xs text-text-muted">{t("calc.enteredDate")}</span>}>
+                      {(id) => <TextInput id={id} type="date" value={form.enteredAt.slice(0, 10)} onChange={(e) => set("enteredAt", joinDateTime(e.target.value, form.enteredAt.slice(11, 16)))} />}
+                    </Field>
+                    <Field label={<span className="text-xs text-text-muted">{t("calc.enteredTime")}</span>}>
+                      {(id) => (
+                        <TextInput
+                          id={id}
+                          type="time"
+                          step={60}
+                          disabled={!form.enteredAt.slice(0, 10)}
+                          value={form.enteredAt.slice(11, 16)}
+                          onChange={(e) => set("enteredAt", joinDateTime(form.enteredAt.slice(0, 10), e.target.value.slice(0, 5)))}
+                        />
+                      )}
+                    </Field>
+                  </div>
+                </fieldset>
                 {(form.operation === "sell" || form.operation === "switch") && (
                   <>
                     {me && (

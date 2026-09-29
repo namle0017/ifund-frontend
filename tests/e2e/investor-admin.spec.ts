@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 import { ADMIN, DEMO_PASSWORD, fundIdByCode, INVESTOR, login } from "./helpers";
 
+test("signed-in bar: brand navigation and account menu with sign-out", async ({ page }) => {
+  await login(page, INVESTOR);
+  const nav = page.getByRole("navigation", { name: "Menu" });
+  await expect(nav.getByRole("link", { name: "Quản lý tài sản" })).toHaveAttribute("aria-current", "page");
+  await page.getByRole("button", { name: "Menu tài khoản" }).click();
+  await expect(page.getByRole("link", { name: "Báo cáo" })).toBeVisible();
+  await page.getByRole("button", { name: "Đăng xuất" }).click();
+  await page.waitForURL("**/vi");
+  await expect(page.getByRole("link", { name: "Đăng nhập" })).toBeVisible();
+});
+
 /**
  * FL-05 / NAV-05..07 / AC-REC-001..002: a mismatched declaration goes to the Admin queue; the Admin decision (with
  * step-up) never completes it; holdings change only after the investor confirms completion.

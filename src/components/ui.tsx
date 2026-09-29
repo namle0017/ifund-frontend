@@ -127,7 +127,7 @@ export function Badge({ tone = "neutral", children, title }: { tone?: "neutral" 
     success: "border-success/40 bg-success/10 text-success",
   }[tone];
   return (
-    <span title={title} className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-normal normal-case tracking-normal ${styles}`}>
+    <span title={title} className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-normal normal-case tracking-normal ${styles}`}>
       {children}
     </span>
   );

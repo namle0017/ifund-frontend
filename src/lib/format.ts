@@ -86,13 +86,14 @@ export function formatDateTime(value: string | null | undefined, locale: Locale)
     return "—";
   }
 
-  return (
-    new Intl.DateTimeFormat(locale === "vi" ? "vi-VN" : "en-GB", {
-      dateStyle: "short",
-      timeStyle: "short",
-      timeZone: "Asia/Ho_Chi_Minh",
-    }).format(new Date(value)) + " (GMT+7)"
+  // Always a 4-digit year and 24h hh:mm in Vietnam time (dateStyle "short" renders a 2-digit year in vi-VN).
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-GB", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Asia/Ho_Chi_Minh" })
+      .formatToParts(new Date(value))
+      .map((p) => [p.type, p.value]),
   );
+  const date = locale === "vi" ? `${parts.day}/${parts.month}/${parts.year}` : `${parts.year}-${parts.month}-${parts.day}`;
+  return `${parts.hour}:${parts.minute} ${date} (GMT+7)`;
 }
 
 /** Percent input "0.15" (%) → ratio string "0.0015" using string arithmetic. */

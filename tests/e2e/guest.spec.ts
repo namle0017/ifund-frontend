@@ -5,10 +5,20 @@ test.describe("Guest (TC-01, FL-01/02)", () => {
   test("browses funds with separate NAV and market-price labels and SYNTHETIC badges", async ({ page }) => {
     await page.goto("/vi/funds");
     await expect(page.getByRole("heading", { name: "Danh sách quỹ" })).toBeVisible();
-    await expect(page.getByText("Dữ liệu tổng hợp (SYNTHETIC)").first()).toBeVisible();
-    const etf = page.getByRole("listitem").filter({ hasText: "SYN-ETF" });
-    await expect(etf.getByText("NAV chính thức")).toBeVisible();
-    await expect(etf.getByText("Giá thị trường")).toBeVisible();
+    await expect(page.getByRole("row").getByText("Dữ liệu tổng hợp (SYNTHETIC)").first()).toBeVisible();
+    const etf = page.getByRole("row").filter({ hasText: "SYN-ETF" });
+    await expect(etf.getByText("Giá thị trường tại")).toBeVisible();
+    await expect(etf.getByText("NAV chính thức:")).toBeVisible();
+    const open = page.getByRole("row").filter({ hasText: "SYN-OPEN" });
+    await expect(open.getByText("Theo NAV chính thức tại")).toBeVisible();
+    await expect(open.getByRole("link", { name: "Tính giao dịch" })).toBeVisible();
+  });
+
+  test("fund table sorts by 1-year return (values come from the BE)", async ({ page }) => {
+    await page.goto("/vi/funds");
+    await page.getByRole("link", { name: /Sắp xếp giảm dần theo Lợi nhuận 1 năm/ }).click();
+    await expect(page).toHaveURL(/sort=return1y/);
+    await expect(page.getByRole("columnheader", { name: /Lợi nhuận 1 năm/ })).toHaveAttribute("aria-sort", "descending");
   });
 
   test("redirects paths without a locale and serves English", async ({ page }) => {
