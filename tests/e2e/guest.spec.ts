@@ -57,6 +57,22 @@ test.describe("Guest (TC-01, FL-01/02)", () => {
     await expect(page.getByText("NAV tham chiếu")).toBeVisible();
   });
 
+  test("fund sheet opens over the list with dealing schedule and verified fee tiers; Escape closes it", async ({ page }) => {
+    await page.goto("/vi/funds");
+    await page.getByRole("row").filter({ hasText: "SYN-OPEN" }).getByRole("link", { name: "SYN-OPEN" }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog.getByRole("heading", { name: /SYN-OPEN/ })).toBeVisible();
+    await expect(dialog.getByText("Phiên khớp lệnh tiếp theo")).toBeVisible();
+    await expect(dialog.getByText("Đặt lệnh và chuyển tiền mua")).toBeVisible();
+    await expect(dialog.getByRole("table", { name: "Phí mua" })).toBeVisible();
+    await expect(dialog.getByRole("table", { name: "Phí bán" })).toBeVisible();
+    await expect(dialog.getByRole("tab", { name: "1 năm" })).toHaveAttribute("aria-selected", "true");
+    expect(await axeViolations(page)).toEqual([]);
+    await page.keyboard.press("Escape");
+    await expect(page).toHaveURL(/\/vi\/funds$/);
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  });
+
   test("investor pages require sign-in (SR-AUTH-001)", async ({ page }) => {
     await page.goto("/vi/app");
     await expect(page).toHaveURL(/\/vi\/auth\/login\?returnUrl=%2Fvi%2Fapp/);

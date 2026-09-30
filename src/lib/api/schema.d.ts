@@ -811,6 +811,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/funds/{id}/trading-info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["FundTradingInfo"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/funds/{id}/analytics": {
         parameters: {
             query?: never;
@@ -4002,6 +4039,16 @@ export interface components {
             sourceReference?: null | string;
             isUserAssumption?: boolean;
         };
+        FeeRuleInfo: {
+            kind: components["schemas"]["FeeKind"];
+            measure: components["schemas"]["TierMeasure"];
+            tiers: components["schemas"]["FeeTierDto"][];
+            /** Format: decimal */
+            minimumFee: null | string;
+            /** Format: decimal */
+            maximumFee: null | string;
+            sourceReference: null | string;
+        };
         FeeScheduleCreateRequest: {
             /** Format: uuid */
             fundClassId: string;
@@ -4015,7 +4062,20 @@ export interface components {
             rules: components["schemas"]["FeeRule"][];
             evidence: null | string;
         };
+        FeeScheduleInfo: {
+            version: string;
+            isVerified: boolean;
+            rules: components["schemas"]["FeeRuleInfo"][];
+        };
         FeeTier: {
+            /** Format: decimal */
+            fromInclusive: null | string;
+            /** Format: decimal */
+            toExclusive: null | string;
+            /** Format: decimal */
+            rate: string;
+        };
+        FeeTierDto: {
             /** Format: decimal */
             fromInclusive: null | string;
             /** Format: decimal */
@@ -4143,6 +4203,13 @@ export interface components {
         };
         /** @enum {unknown} */
         FundStatus: "Draft" | "Active" | "Hidden";
+        FundTradingInfo: {
+            /** Format: uuid */
+            fundId: string;
+            /** Format: date-time */
+            asOfLocal: string;
+            mechanisms: components["schemas"]["MechanismTradingInfo"][];
+        };
         /** @enum {unknown} */
         FundType: "OpenFund" | "Etf" | "ClosedFund";
         FundUpsertRequest: {
@@ -4318,6 +4385,20 @@ export interface components {
             /** Format: decimal */
             low: null | string;
             isStale: boolean;
+        };
+        MechanismTradingInfo: {
+            mechanism: components["schemas"]["TradingMechanism"];
+            dealingWeekdays: null | components["schemas"]["DayOfWeek"][];
+            /** Format: time */
+            cutoffTime: null | string;
+            /** Format: date */
+            nextDealingDay: null | string;
+            /** Format: date-time */
+            nextCutoffLocal: null | string;
+            /** Format: int32 */
+            settlementOffset: null | number | string;
+            fees: null | components["schemas"]["FeeScheduleInfo"];
+            missing: string[];
         };
         MetricDto: {
             /** Format: decimal */

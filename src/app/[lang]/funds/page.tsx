@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CompareButton } from "@/components/compare-button";
 import { DataLabel } from "@/components/data";
+import { FundSheet } from "@/components/fund-sheet";
+import { SheetModal } from "@/components/fund-sheet-client";
 import type { S } from "@/lib/api/client";
 import { safely, serverApi } from "@/lib/api/server";
 import { formatDate, formatDecimal, formatNav, formatRatioPercent } from "@/lib/format";
@@ -20,8 +22,14 @@ export default async function FundsPage({ params, searchParams }: PageProps<"/[l
   const type = (["OpenFund", "Etf", "ClosedFund"] as const).find((x) => x === sp.type) as FundType | undefined;
   const cursor = typeof sp.cursor === "string" ? sp.cursor : undefined;
   const sort = (["return1y", "return3y"] as const).find((x) => x === sp.sort) ?? "code";
+  const fundId = typeof sp.fund === "string" && /^[0-9a-f-]{36}$/i.test(sp.fund) ? sp.fund : undefined;
 
-  const { data } = await safely(() => serverApi.GET("/v1/funds", { params: { query: { q, type, cursor, limit: 20, sort: sort === "code" ? undefined : sort } } }));
+  // The fund sheet opens as a modal over the list (?fund=…) so the list keeps its filters, sort and page.
+  const [{ data }, sheet, trading] = await Promise.all([
+    safely(() => serverApi.GET("/v1/funds", { params: { query: { q, type, cursor, limit: 20, sort: sort === "code" ? undefined : sort } } })),
+    fundId ? safely(() => serverApi.GET("/v1/funds/{id}", { params: { path: { id: fundId } } })) : Promise.resolve(null),
+    fundId ? safely(() => serverApi.GET("/v1/funds/{id}/trading-info", { params: { path: { id: fundId } } })) : Promise.resolve(null),
+  ]);
   const query = (extra: Record<string, string | undefined>) => {
     const p = new URLSearchParams();
     for (const [k, v] of Object.entries({ q, type, sort: sort === "code" ? undefined : sort, ...extra })) {
@@ -33,6 +41,7 @@ export default async function FundsPage({ params, searchParams }: PageProps<"/[l
     const s = p.toString();
     return `/${locale}/funds${s ? `?${s}` : ""}`;
   };
+  const sheetHref = (id: string) => query({ cursor, fund: id });
 
   return (
     <div className="flex flex-col gap-6">
@@ -72,7 +81,7 @@ export default async function FundsPage({ params, searchParams }: PageProps<"/[l
           {/* Phones: one card per fund instead of a horizontally scrolling table. */}
           <ul className="divide-y divide-border md:hidden">
             {data.items?.map((f) => (
-              <FundCard key={f.id} f={f} locale={locale} t={t} />
+              <FundCard key={f.id} f={f} href={sheetHref(f.id!)} locale={locale} t={t} />
             ))}
           </ul>
           <div className="hidden overflow-x-auto md:block">
@@ -98,7 +107,7 @@ export default async function FundsPage({ params, searchParams }: PageProps<"/[l
               </thead>
               <tbody>
                 {data.items?.map((f) => (
-                  <FundRow key={f.id} f={f} locale={locale} t={t} />
+                  <FundRow key={f.id} f={f} href={sheetHref(f.id!)} locale={locale} t={t} />
                 ))}
               </tbody>
             </table>
@@ -113,6 +122,11 @@ export default async function FundsPage({ params, searchParams }: PageProps<"/[l
         </div>
       )}
       <p className="max-w-3xl text-xs text-text-muted">{t("funds.returnsNote")}</p>
+      {sheet?.data && (
+        <SheetModal closeHref={query({ cursor })} labelledBy="fund-sheet-title" closeLabel={t("sheet.close")}>
+          <FundSheet f={sheet.data} info={trading?.data} locale={locale} t={t} headingId="fund-sheet-title" />
+        </SheetModal>
+      )}
     </div>
   );
 }
@@ -130,7 +144,7 @@ function SortHeader({ label, active, href, t, className = "" }: { label: string;
   );
 }
 
-function FundRow({ f, locale, t }: { f: S<"FundListItem">; locale: "vi" | "en"; t: (k: string, fb?: string) => string }) {
+function FundRow({ f, href, locale, t }: { f: S<"FundListItem">; href: string; locale: "vi" | "en"; t: (k: string, fb?: string) => string }) {
   const onExchange = f.type !== "OpenFund";
   return (
     <tr className="border-t border-border align-middle transition-colors hover:bg-surface-muted/60">
@@ -141,7 +155,7 @@ function FundRow({ f, locale, t }: { f: S<"FundListItem">; locale: "vi" | "en"; 
           </span>
           <div className="flex min-w-0 flex-col">
             <span className="flex flex-wrap items-center gap-2">
-              <Link href={`/${locale}/funds/${f.id}`} className="text-base font-medium text-primary">
+              <Link href={href} scroll={false} className="text-base font-medium text-primary">
                 {f.code}
               </Link>
               {f.isSynthetic && <DataLabel kind="synthetic" />}
@@ -190,7 +204,7 @@ function FundRow({ f, locale, t }: { f: S<"FundListItem">; locale: "vi" | "en"; 
   );
 }
 
-function FundCard({ f, locale, t }: { f: S<"FundListItem">; locale: "vi" | "en"; t: (k: string, fb?: string) => string }) {
+function FundCard({ f, href, locale, t }: { f: S<"FundListItem">; href: string; locale: "vi" | "en"; t: (k: string, fb?: string) => string }) {
   const onExchange = f.type !== "OpenFund";
   const price = onExchange ? f.latestMarketPrice?.close : f.latestNav?.calculationNav;
   const r = f.return1Y;
@@ -198,7 +212,7 @@ function FundCard({ f, locale, t }: { f: S<"FundListItem">; locale: "vi" | "en";
     <li className="flex flex-col gap-3 p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
-          <Link href={`/${locale}/funds/${f.id}`} className="text-base font-medium text-primary">
+          <Link href={href} scroll={false} className="text-base font-medium text-primary">
             {f.code}
           </Link>
           <span className="text-sm text-text-muted">

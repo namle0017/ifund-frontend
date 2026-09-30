@@ -16,7 +16,7 @@ const colorVar: Record<ChartSeries["kind"], string> = { official: "--primary", m
  * 14 §5: legend, gaps are not joined (connectNulls=false on a shared date axis), forecast drawn dashed, and a
  * data-table alternative for screen readers / small screens. Values are parsed to numbers only for plotting.
  */
-export function SeriesChart({ series, title }: { series: ChartSeries[]; title: string }) {
+export function SeriesChart({ series, title, hideCaption }: { series: ChartSeries[]; title: string; hideCaption?: boolean }) {
   const { t, locale } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const [showTable, setShowTable] = useState(false);
@@ -82,7 +82,7 @@ export function SeriesChart({ series, title }: { series: ChartSeries[]; title: s
 
   return (
     <figure className="flex flex-col gap-2">
-      <figcaption className="heading-md">{title}</figcaption>
+      <figcaption className={hideCaption ? "sr-only" : "heading-md"}>{title}</figcaption>
       <div ref={ref} role="img" aria-label={title} className="h-72 w-full" />
       <button type="button" className="self-start rounded-full px-2 py-1 text-xs text-primary underline underline-offset-2 hover:bg-info-bg" aria-expanded={showTable} onClick={() => setShowTable((v) => !v)}>
         {t("common.tableAlternative")}

@@ -585,6 +585,36 @@
         }
       }
     },
+    "/v1/funds/{id}/trading-info": {
+      "get": {
+        "tags": [
+          "Funds"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FundTradingInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/funds/{id}/analytics": {
       "get": {
         "tags": [
@@ -4679,6 +4709,53 @@
           }
         }
       },
+      "FeeRuleInfo": {
+        "required": [
+          "kind",
+          "measure",
+          "tiers",
+          "minimumFee",
+          "maximumFee",
+          "sourceReference"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/FeeKind"
+          },
+          "measure": {
+            "$ref": "#/components/schemas/TierMeasure"
+          },
+          "tiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeeTierDto"
+            }
+          },
+          "minimumFee": {
+            "pattern": "^-?[0-9]\u002B(\\.[0-9]\u002B)?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "decimal"
+          },
+          "maximumFee": {
+            "pattern": "^-?[0-9]\u002B(\\.[0-9]\u002B)?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "decimal"
+          },
+          "sourceReference": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
       "FeeScheduleCreateRequest": {
         "required": [
           "fundClassId",
@@ -4733,7 +4810,60 @@
           }
         }
       },
+      "FeeScheduleInfo": {
+        "required": [
+          "version",
+          "isVerified",
+          "rules"
+        ],
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeeRuleInfo"
+            }
+          }
+        }
+      },
       "FeeTier": {
+        "required": [
+          "fromInclusive",
+          "toExclusive",
+          "rate"
+        ],
+        "type": "object",
+        "properties": {
+          "fromInclusive": {
+            "pattern": "^-?[0-9]\u002B(\\.[0-9]\u002B)?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "decimal"
+          },
+          "toExclusive": {
+            "pattern": "^-?[0-9]\u002B(\\.[0-9]\u002B)?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "decimal"
+          },
+          "rate": {
+            "pattern": "^-?[0-9]\u002B(\\.[0-9]\u002B)?$",
+            "type": "string",
+            "format": "decimal"
+          }
+        }
+      },
+      "FeeTierDto": {
         "required": [
           "fromInclusive",
           "toExclusive",
@@ -5283,6 +5413,30 @@
           "Active",
           "Hidden"
         ]
+      },
+      "FundTradingInfo": {
+        "required": [
+          "fundId",
+          "asOfLocal",
+          "mechanisms"
+        ],
+        "type": "object",
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "asOfLocal": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mechanisms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MechanismTradingInfo"
+            }
+          }
+        }
       },
       "FundType": {
         "enum": [
@@ -5983,6 +6137,79 @@
           },
           "isStale": {
             "type": "boolean"
+          }
+        }
+      },
+      "MechanismTradingInfo": {
+        "required": [
+          "mechanism",
+          "dealingWeekdays",
+          "cutoffTime",
+          "nextDealingDay",
+          "nextCutoffLocal",
+          "settlementOffset",
+          "fees",
+          "missing"
+        ],
+        "type": "object",
+        "properties": {
+          "mechanism": {
+            "$ref": "#/components/schemas/TradingMechanism"
+          },
+          "dealingWeekdays": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "cutoffTime": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "time"
+          },
+          "nextDealingDay": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date"
+          },
+          "nextCutoffLocal": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
+          },
+          "settlementOffset": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "fees": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FeeScheduleInfo"
+              }
+            ]
+          },
+          "missing": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
