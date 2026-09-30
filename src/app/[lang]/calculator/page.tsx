@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { CalculationResultView } from "@/components/calculation-result";
 import { Disclaimer, ErrorState } from "@/components/data";
+import { DateInput } from "@/components/date-input";
 import { Alert, Button, Card, Checkbox, Field, SelectInput, TextInput } from "@/components/ui";
 import { api, call, type S } from "@/lib/api/client";
 import { parseAmountInput, percentToRatio } from "@/lib/format";
@@ -271,7 +272,7 @@ function CalculatorInner() {
                   <legend className="mb-1 text-sm text-text-secondary">{t("calc.enteredAt")} (GMT+7)</legend>
                   <div className="grid grid-cols-[1fr_auto] gap-2">
                     <Field label={<span className="text-xs text-text-muted">{t("calc.enteredDate")}</span>}>
-                      {(id) => <TextInput id={id} type="date" value={form.enteredDate} onChange={(e) => set("enteredDate", e.target.value)} />}
+                      {(id, d) => <DateInput id={id} aria-describedby={d} value={form.enteredDate} onChange={(v) => set("enteredDate", v)} />}
                     </Field>
                     {/* Two 24h selects instead of <input type="time">, whose 12h locales add an AM/PM field. */}
                     <fieldset className="flex flex-col gap-1">
@@ -323,7 +324,7 @@ function CalculatorInner() {
                       </Field>
                     )}
                     {!form.portfolioId && (
-                      <Field label={t("calc.assumedAcquisition")}>{(id) => <TextInput id={id} type="date" value={form.assumedAcquisitionDate} onChange={(e) => set("assumedAcquisitionDate", e.target.value)} />}</Field>
+                      <Field label={t("calc.assumedAcquisition")}>{(id, d) => <DateInput id={id} aria-describedby={d} value={form.assumedAcquisitionDate} onChange={(v) => set("assumedAcquisitionDate", v)} />}</Field>
                     )}
                   </>
                 )}

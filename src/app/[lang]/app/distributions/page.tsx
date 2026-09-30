@@ -4,7 +4,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { CalculationResultView } from "@/components/calculation-result";
 import { Disclaimer, ErrorState, WarningList } from "@/components/data";
-import { Alert, Button, Card, DataTable, Field, SelectInput, TextInput } from "@/components/ui";
+import { DateInput } from "@/components/date-input";
+import { Alert, Button, Card, DataTable, Field, SelectInput } from "@/components/ui";
 import { api, call } from "@/lib/api/client";
 import { formatDate, formatDecimal, formatUnits, formatVnd, sumDecimals } from "@/lib/format";
 import { useI18n } from "@/lib/i18n/client";
@@ -60,7 +61,7 @@ export default function DistributionsPage() {
         )}
         {eventId && (
           <div className="mt-3 flex flex-wrap items-end gap-2">
-            <Field label={`${t("distributions.reinvest")} — ${t("common.date")}`}>{(id) => <TextInput id={id} type="date" value={reinvestDate} onChange={(e) => setReinvestDate(e.target.value)} />}</Field>
+            <Field label={`${t("distributions.reinvest")} — ${t("common.date")}`}>{(id, d) => <DateInput id={id} aria-describedby={d} value={reinvestDate} onChange={(v) => setReinvestDate(v)} />}</Field>
             <Button busy={simulate.isPending} onClick={() => simulate.mutate(false)}>
               {t("plans.simulate")}
             </Button>

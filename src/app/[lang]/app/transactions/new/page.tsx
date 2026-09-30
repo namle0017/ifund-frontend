@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { ErrorState } from "@/components/data";
+import { DateInput } from "@/components/date-input";
 import { Alert, Button, Card, Checkbox, Field, SelectInput, TextInput } from "@/components/ui";
 import { api, call, type S } from "@/lib/api/client";
 import { parseAmountInput } from "@/lib/format";
@@ -153,7 +154,7 @@ function NewTransactionInner() {
             </SelectInput>
           )}
         </Field>
-        {input("tradeDate", t("labels.tradeDate"), { type: "date", required: true, inputMode: undefined })}
+        <Field label={t("labels.tradeDate")}>{(id, d) => <DateInput id={id} aria-describedby={d} required value={form.tradeDate} onChange={(v) => set("tradeDate", v)} />}</Field>
         <Field label={t("calc.dateMode")}>
           {(id) => (
             <SelectInput id={id} value={form.dateMode} onChange={(e) => set("dateMode", e.target.value as S<"DateMode">)}>

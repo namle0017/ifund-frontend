@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Disclaimer, ErrorState, WarningList } from "@/components/data";
 import { SeriesChart } from "@/components/series-chart";
+import { DateInput } from "@/components/date-input";
 import { Alert, Button, Card, Checkbox, DataTable, Field, SelectInput, TextInput } from "@/components/ui";
 import { api, call, type S } from "@/lib/api/client";
 import { formatVnd, parseAmountInput, percentToRatio, formatRatioPercent } from "@/lib/format";
@@ -95,7 +96,7 @@ export default function PlansPage() {
               </SelectInput>
             )}
           </Field>
-          <Field label={t("plans.start")}>{(id) => <TextInput id={id} type="date" value={start} onChange={(e) => setStart(e.target.value)} />}</Field>
+          <Field label={t("plans.start")}>{(id, d) => <DateInput id={id} aria-describedby={d} value={start} onChange={(v) => setStart(v)} />}</Field>
           <Field label={t("plans.periods")}>{(id) => <TextInput id={id} type="number" min={1} max={600} value={periods} onChange={(e) => setPeriods(e.target.value)} />}</Field>
           <Field label={t("plans.target")}>{(id) => <TextInput id={id} inputMode="decimal" value={target} onChange={(e) => setTarget(e.target.value)} />}</Field>
           <fieldset className="md:col-span-3">

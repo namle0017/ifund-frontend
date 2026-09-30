@@ -34,7 +34,8 @@ test("mismatch → Admin accepts with evidence → investor completes → holdin
     yesterday.setDate(yesterday.getDate() - 1);
   }
 
-  await investor.getByLabel("Ngày giao dịch").fill(yesterday.toISOString().slice(0, 10));
+  const iso = yesterday.toISOString().slice(0, 10);
+  await investor.getByLabel("Ngày giao dịch").fill(`${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`);
   await investor.getByLabel("Giá/NAV áp dụng").fill("99999");
   await investor.getByLabel("Số CCQ", { exact: true }).fill("10");
   await investor.getByLabel("Phí", { exact: true }).fill("0");

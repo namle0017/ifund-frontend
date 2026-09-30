@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ErrorState } from "@/components/data";
 import { DecisionForm, StepUpGate } from "@/components/step-up";
+import { DateInput } from "@/components/date-input";
 import { Alert, Button, Card, DataTable, Field, SelectInput, TextInput } from "@/components/ui";
 import { api, call } from "@/lib/api/client";
 import { formatDate, parseAmountInput } from "@/lib/format";
@@ -90,7 +91,7 @@ export default function DataSourcesPage() {
                 </SelectInput>
               )}
             </Field>
-            <Field label={t("labels.valuationDate")}>{(id) => <TextInput id={id} type="date" required value={date} onChange={(e) => setDate(e.target.value)} />}</Field>
+            <Field label={t("labels.valuationDate")}>{(id, d) => <DateInput id={id} aria-describedby={d} required value={date} onChange={(v) => setDate(v)} />}</Field>
             <Field label={t("labels.rawNav")}>{(id) => <TextInput id={id} inputMode="decimal" required value={nav} onChange={(e) => setNav(e.target.value)} />}</Field>
             <Field label={t("common.evidence")}>{(id) => <TextInput id={id} required value={evidence} onChange={(e) => setEvidence(e.target.value)} />}</Field>
             <Button type="submit" busy={manual.isPending} disabled={!fund.data}>

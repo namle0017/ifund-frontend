@@ -3,7 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ErrorState } from "@/components/data";
-import { Alert, Button, Card, DataTable, Field, SelectInput, TextInput } from "@/components/ui";
+import { DateInput } from "@/components/date-input";
+import { Alert, Button, Card, DataTable, Field, SelectInput } from "@/components/ui";
 import { api, call, type S } from "@/lib/api/client";
 import { formatDateTime } from "@/lib/format";
 import { useI18n } from "@/lib/i18n/client";
@@ -74,8 +75,8 @@ export default function ReportsPage() {
               </SelectInput>
             )}
           </Field>
-          <Field label={t("reports.from")}>{(id) => <TextInput id={id} type="date" value={from} onChange={(e) => setFrom(e.target.value)} />}</Field>
-          <Field label={t("reports.to")}>{(id) => <TextInput id={id} type="date" value={to} onChange={(e) => setTo(e.target.value)} />}</Field>
+          <Field label={t("reports.from")}>{(id, d) => <DateInput id={id} aria-describedby={d} value={from} onChange={(v) => setFrom(v)} />}</Field>
+          <Field label={t("reports.to")}>{(id, d) => <DateInput id={id} aria-describedby={d} value={to} onChange={(v) => setTo(v)} />}</Field>
           <Button type="submit" busy={create.isPending} className="md:col-span-4">
             {t("reports.generate")}
           </Button>

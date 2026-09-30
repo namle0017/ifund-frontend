@@ -53,7 +53,10 @@ test.describe("Guest (TC-01, FL-01/02)", () => {
     await page.getByRole("button", { name: "Tính", exact: true }).click();
     await expect(page.getByText("Vui lòng chọn đủ ngày, giờ và phút đặt lệnh.")).toBeVisible();
 
-    await page.getByLabel("Ngày", { exact: true }).fill("2026-09-30");
+    await page.getByRole("button", { name: "Chọn ngày từ lịch" }).first().click();
+    await page.getByRole("dialog", { name: "Lịch chọn ngày" }).getByRole("button", { name: "Hôm nay" }).click();
+    await expect(page.getByLabel("Ngày", { exact: true })).toHaveValue(/^\d{2}\/\d{2}\/\d{4}$/);
+    await page.getByLabel("Ngày", { exact: true }).fill("30/09/2026");
     await page.getByLabel("Phút", { exact: true }).selectOption("30");
     await page.getByRole("button", { name: "Tính", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Kết quả ước tính" })).toBeVisible();

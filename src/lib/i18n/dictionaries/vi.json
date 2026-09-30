@@ -592,5 +592,16 @@
     "Friday": "Thứ sáu",
     "Saturday": "Thứ bảy",
     "Sunday": "Chủ nhật"
+  },
+  "dateInput": {
+    "placeholder": "dd/mm/yyyy",
+    "invalid": "Ngày không hợp lệ (định dạng dd/mm/yyyy).",
+    "openCalendar": "Chọn ngày từ lịch",
+    "calendar": "Lịch chọn ngày",
+    "prevMonth": "Tháng trước",
+    "nextMonth": "Tháng sau",
+    "year": "Năm",
+    "today": "Hôm nay",
+    "close": "Đóng"
   }
 }

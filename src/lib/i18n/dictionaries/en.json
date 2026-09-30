@@ -592,5 +592,16 @@
     "Friday": "Friday",
     "Saturday": "Saturday",
     "Sunday": "Sunday"
+  },
+  "dateInput": {
+    "placeholder": "dd/mm/yyyy",
+    "invalid": "Invalid date (format dd/mm/yyyy).",
+    "openCalendar": "Pick a date from the calendar",
+    "calendar": "Date picker",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "year": "Year",
+    "today": "Today",
+    "close": "Close"
   }
 }
