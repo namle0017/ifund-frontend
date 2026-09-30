@@ -223,8 +223,10 @@
     "referenceNav": "Reference NAV",
     "portfolioForLots": "Use lots from portfolio",
     "enteredDate": "Date",
-    "enteredTime": "Time (hh:mm)",
-    "enteredTimeRequired": "Please enter the order time (hh:mm) together with the date."
+    "enteredTime": "Hour : minute (24h)",
+    "enteredTimeRequired": "Please choose the order date, hour and minute.",
+    "hour": "Hour",
+    "minute": "Minute"
   },
   "forecast": {
     "title": "Short-term NAV forecast",

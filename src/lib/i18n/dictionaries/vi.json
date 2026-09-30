@@ -223,8 +223,10 @@
     "referenceNav": "NAV tham chiếu",
     "portfolioForLots": "Dùng lô trong danh mục",
     "enteredDate": "Ngày",
-    "enteredTime": "Giờ (giờ:phút)",
-    "enteredTimeRequired": "Vui lòng nhập giờ đặt lệnh (giờ:phút) cùng với ngày."
+    "enteredTime": "Giờ : phút (24h)",
+    "enteredTimeRequired": "Vui lòng chọn đủ ngày, giờ và phút đặt lệnh.",
+    "hour": "Giờ",
+    "minute": "Phút"
   },
   "forecast": {
     "title": "Dự báo NAV ngắn hạn",

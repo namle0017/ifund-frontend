@@ -41,6 +41,25 @@ test.describe("Guest (TC-01, FL-01/02)", () => {
     await expect(page.getByRole("button", { name: /Đặt lệnh|Place order/ })).toHaveCount(0);
   });
 
+  test("order time is date + 24h hour:minute only; partial input is rejected", async ({ page }) => {
+    const id = await fundIdByCode(page, "SYN-OPEN");
+    await page.goto(`/vi/calculator?fundId=${id}`);
+    await page.getByLabel("Số tiền (VNĐ)").fill("10.000.000");
+    await expect(page.locator('input[type="time"]')).toHaveCount(0);
+    await expect(page.getByLabel("Giờ", { exact: true }).locator("option")).toHaveCount(25);
+    await expect(page.getByLabel("Phút", { exact: true }).locator("option")).toHaveCount(61);
+
+    await page.getByLabel("Giờ", { exact: true }).selectOption("14");
+    await page.getByRole("button", { name: "Tính", exact: true }).click();
+    await expect(page.getByText("Vui lòng chọn đủ ngày, giờ và phút đặt lệnh.")).toBeVisible();
+
+    await page.getByLabel("Ngày", { exact: true }).fill("2026-09-30");
+    await page.getByLabel("Phút", { exact: true }).selectOption("30");
+    await page.getByRole("button", { name: "Tính", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Kết quả ước tính" })).toBeVisible();
+    await expect(page.getByText(/\d{2}:\d{2} \d{2}\/\d{2}\/2026 \(GMT\+7\)/).first()).toBeVisible();
+  });
+
   test("ETF estimate requires a market price and never uses NAV as the trade price (NAV-02, AC-FUND-002)", async ({ page }) => {
     const id = await fundIdByCode(page, "SYN-ETF");
     await page.goto(`/vi/calculator?fundId=${id}`);

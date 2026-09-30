@@ -21,7 +21,9 @@ interface FormState {
   units: string;
   targetUnits: string;
   dateMode: S<"DateMode">;
-  enteredAt: string;
+  enteredDate: string;
+  enteredHour: string;
+  enteredMinute: string;
   marketPrice: string;
   brokerPercent: string;
   assumedAcquisitionDate: string;
@@ -40,7 +42,9 @@ const emptyForm = (fundId = ""): FormState => ({
   units: "",
   targetUnits: "",
   dateMode: "Placement",
-  enteredAt: "",
+  enteredDate: "",
+  enteredHour: "",
+  enteredMinute: "",
   marketPrice: "",
   brokerPercent: "",
   assumedAcquisitionDate: "",
@@ -49,14 +53,8 @@ const emptyForm = (fundId = ""): FormState => ({
   portfolioId: "",
 });
 
-/** "YYYY-MM-DD" + "HH:mm" → "YYYY-MM-DDTHH:mm" (minute precision); a date alone is kept so the time can still be entered. */
-function joinDateTime(date: string, time: string): string {
-  if (!date) {
-    return "";
-  }
-
-  return time ? `${date}T${time}` : date;
-}
+const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
+const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
 
 function CalculatorInner() {
   const { t, locale } = useI18n();
@@ -127,11 +125,14 @@ function CalculatorInner() {
       return null;
     }
 
-    // A date without hh:mm cannot be compared with the cut-off; ask for the time instead of guessing one.
-    if (form.enteredAt && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(form.enteredAt)) {
+    // Date, hour and minute go together (minute precision, 24h, GMT+7); a partial entry is rejected, never completed by guessing.
+    const timeParts = [form.enteredDate, form.enteredHour, form.enteredMinute];
+    if (timeParts.some(Boolean) && !timeParts.every(Boolean)) {
       setInputError(t("calc.enteredTimeRequired"));
       return null;
     }
+
+    const enteredAt = timeParts.every(Boolean) ? `${form.enteredDate}T${form.enteredHour}:${form.enteredMinute}` : null;
 
     setInputError(null);
     return {
@@ -140,7 +141,7 @@ function CalculatorInner() {
       units: form.operation === "sell" || form.operation === "switch" || (form.operation === "buy" && !amount) ? units : null,
       targetUnits: form.operation === "inverse" ? targetUnits : null,
       dateMode: form.dateMode,
-      enteredAt: form.enteredAt || null,
+      enteredAt,
       navChoice: form.useForecast ? "LatestForecast" : "LatestVerified",
       marketPrice: isExchange ? marketPrice : null,
       brokerCommissionRate: isExchange ? broker : null,
@@ -268,22 +269,41 @@ function CalculatorInner() {
                 {/* Order time is captured to the minute only (hh:mm, GMT+7); the BE compares it against the cut-off. */}
                 <fieldset className="flex flex-col gap-1">
                   <legend className="mb-1 text-sm text-text-secondary">{t("calc.enteredAt")} (GMT+7)</legend>
-                  <div className="grid grid-cols-[1fr_8rem] gap-2">
+                  <div className="grid grid-cols-[1fr_auto] gap-2">
                     <Field label={<span className="text-xs text-text-muted">{t("calc.enteredDate")}</span>}>
-                      {(id) => <TextInput id={id} type="date" value={form.enteredAt.slice(0, 10)} onChange={(e) => set("enteredAt", joinDateTime(e.target.value, form.enteredAt.slice(11, 16)))} />}
+                      {(id) => <TextInput id={id} type="date" value={form.enteredDate} onChange={(e) => set("enteredDate", e.target.value)} />}
                     </Field>
-                    <Field label={<span className="text-xs text-text-muted">{t("calc.enteredTime")}</span>}>
-                      {(id) => (
-                        <TextInput
-                          id={id}
-                          type="time"
-                          step={60}
-                          disabled={!form.enteredAt.slice(0, 10)}
-                          value={form.enteredAt.slice(11, 16)}
-                          onChange={(e) => set("enteredAt", joinDateTime(form.enteredAt.slice(0, 10), e.target.value.slice(0, 5)))}
-                        />
-                      )}
-                    </Field>
+                    {/* Two 24h selects instead of <input type="time">, whose 12h locales add an AM/PM field. */}
+                    <fieldset className="flex flex-col gap-1">
+                      <legend className="mb-1 text-xs text-text-muted">{t("calc.enteredTime")}</legend>
+                      <div className="flex items-center gap-1">
+                        <label className="sr-only" htmlFor="calc-hour">
+                          {t("calc.hour")}
+                        </label>
+                        <SelectInput id="calc-hour" value={form.enteredHour} onChange={(e) => set("enteredHour", e.target.value)} className="w-[4.75rem]">
+                          <option value="">--</option>
+                          {HOURS.map((h) => (
+                            <option key={h} value={h}>
+                              {h}
+                            </option>
+                          ))}
+                        </SelectInput>
+                        <span aria-hidden className="text-text-muted">
+                          :
+                        </span>
+                        <label className="sr-only" htmlFor="calc-minute">
+                          {t("calc.minute")}
+                        </label>
+                        <SelectInput id="calc-minute" value={form.enteredMinute} onChange={(e) => set("enteredMinute", e.target.value)} className="w-[4.75rem]">
+                          <option value="">--</option>
+                          {MINUTES.map((m) => (
+                            <option key={m} value={m}>
+                              {m}
+                            </option>
+                          ))}
+                        </SelectInput>
+                      </div>
+                    </fieldset>
                   </div>
                 </fieldset>
                 {(form.operation === "sell" || form.operation === "switch") && (
