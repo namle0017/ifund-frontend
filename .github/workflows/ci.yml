@@ -1,0 +1,26 @@
+name: frontend-ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci
+      - name: Pinned contract unchanged (C8)
+        run: npm run contract:check
+      - name: Generated client matches pinned contract
+        run: npm run contract:gen && git diff --exit-code src/lib/api/schema.d.ts
+      - run: npm run typecheck
+      - run: npx eslint src
+      - run: npm test
+      - run: npx next build
+      - name: Dependency audit (high/critical)
+        run: npm audit --omit=dev --audit-level=high
+  # E2E runs against a staging stack with a version-pinned BE (IMPLEMENTATION_PLAN M6); not executed from this workflow yet.
